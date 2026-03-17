@@ -10,7 +10,10 @@ import { paymentsRoutes } from './routes/payments.routes';
 import { webhooksRoutes } from './routes/webhooks.routes';
 import { projectsRoutes } from './routes/projects.routes';
 import { keysRoutes } from './routes/keys.routes';
+import { flowsRoutes } from './routes/flows.routes';
+import { demoRoutes } from './routes/demo.routes';
 import { startWebhookWorker } from './queue/webhook.worker';
+
 
 const fastify = Fastify({
   logger: {
@@ -51,6 +54,9 @@ async function bootstrap() {
   await fastify.register(keysRoutes, { prefix: '/api' });
   await fastify.register(paymentsRoutes, { prefix: '/api' });
   await fastify.register(webhooksRoutes, { prefix: '/api' });
+  await fastify.register(flowsRoutes, { prefix: '/api' });
+  await fastify.register(demoRoutes, { prefix: '/api' });
+
 
   // Start webhook delivery worker
   startWebhookWorker();

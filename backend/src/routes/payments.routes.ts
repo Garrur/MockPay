@@ -171,7 +171,51 @@ export async function paymentsRoutes(fastify: FastifyInstance) {
 
     return { payment_id: id, new_status: newStatus };
   });
+
+  // POST /api/simulate-payment — Advanced simulation for hosted checkout (no API key required, payment_id is the token)
+  fastify.post('/simulate-payment', async (req, reply) => {
+    const { payment_id, status, delay = 0, card_details, upi_details } = req.body as {
+      payment_id: string;
+      status: 'success' | 'failed' | 'pending';
+      delay?: number;
+      card_details?: { last4: string; holder: string };
+      upi_details?: { upi_id: string };
+    };
+
+    if (!payment_id || !status) {
+      return reply.status(400).send({ error: 'payment_id and status are required' });
+    }
+
+    const payment = await prisma.payment.findUnique({ where: { id: payment_id } });
+    if (!payment) return reply.status(404).send({ error: 'Payment not found' });
+
+    if (['success', 'failed', 'cancelled'].includes(payment.status)) {
+      return reply.status(400).send({ error: 'Payment already in terminal state' });
+    }
+
+    // Simulate network delay
+    if (delay > 0) {
+      await new Promise(resolve => setTimeout(resolve, delay * 1000));
+    }
+
+    const updated = await prisma.payment.update({
+      where: { id: payment_id },
+      data: {
+        status: status as any,
+        cardLast4: card_details?.last4,
+        upiId: upi_details?.upi_id,
+      },
+    });
+
+    // Fire webhook if terminal
+    if (status === 'success' || status === 'failed') {
+      await enqueueWebhooks(payment.projectId, payment.id, `payment.${status}`, updated);
+    }
+
+    return { success: true, status: updated.status };
+  });
 }
+
 
 async function enqueueWebhooks(
   projectId: string,

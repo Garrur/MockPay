@@ -1,0 +1,125 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(cuid())
+  clerkId   String    @unique
+  email     String    @unique
+  name      String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
+
+  @@index([clerkId])
+}
+
+model Project {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  apiKeys   ApiKey[]
+  payments  Payment[]
+  webhooks  Webhook[]
+
+  @@index([userId])
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  publicKey   String    @unique
+  secretKeyHash String
+  secretKeyPreview String  // last 4 chars for display
+  label       String    @default("Default")
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([publicKey])
+  @@index([projectId])
+}
+
+enum PaymentStatus {
+  created
+  pending
+  success
+  failed
+  cancelled
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  projectId     String
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  amount        Int           // in smallest currency unit (paise for INR)
+  currency      String        @default("INR")
+  orderId       String
+  description   String?
+  status        PaymentStatus @default(created)
+  paymentUrl    String        @unique
+  cardLast4     String?
+  upiId         String?
+  metadata      Json?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  webhookEvents WebhookEvent[]
+
+  @@index([projectId])
+  @@index([orderId])
+  @@index([status])
+}
+
+model Webhook {
+  id        String         @id @default(cuid())
+  projectId String
+  project   Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  url       String
+  secret    String
+  events    String[]       @default(["payment.created", "payment.success", "payment.failed", "payment.cancelled"])
+  isActive  Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  webhookEvents WebhookEvent[]
+
+  @@index([projectId])
+}
+
+enum WebhookEventStatus {
+  pending
+  delivered
+  failed
+}
+
+model WebhookEvent {
+  id          String             @id @default(cuid())
+  webhookId   String
+  webhook     Webhook            @relation(fields: [webhookId], references: [id], onDelete: Cascade)
+  paymentId   String
+  payment     Payment            @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  eventType   String
+  payload     Json
+  status      WebhookEventStatus @default(pending)
+  attempts    Int                @default(0)
+  httpStatus  Int?
+  responseBody String?
+  nextRetryAt DateTime?
+  deliveredAt DateTime?
+  createdAt   DateTime           @default(now())
+
+  @@index([webhookId])
+  @@index([paymentId])
+  @@index([status])
+}

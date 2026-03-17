@@ -1,0 +1,33 @@
+{
+  "name": "sandboxpay-js",
+  "version": "1.0.0",
+  "description": "The official Node.js SDK for SandboxPay",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "sandboxpay": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "payments",
+    "sandbox",
+    "sdk",
+    "sandboxpay"
+  ],
+  "author": "SandboxPay",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^18.0.0",
+    "@types/express": "^4.17.0"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  }
+}

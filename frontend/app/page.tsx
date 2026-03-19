@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, Suspense, lazy, MouseEvent as ReactMouseEv
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowRight, Terminal, Zap, CreditCard, Webhook, Code2, Copy, Check, X, Star, ExternalLink, Cpu, GitBranch, Activity } from "lucide-react";
+import { ArrowRight, Terminal, Zap, CreditCard, Webhook, Code2, Copy, Check, X, Star, ExternalLink, Cpu, GitBranch, Activity, ShieldAlert, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // ── Lazy load the heavy 3D scene ─────────────────────────────
@@ -154,12 +154,12 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
 });`;
 
 const features = [
-  { icon: Zap, title: "Instant Checkout", desc: "Generate a hosted payment page in one API call — no KYC, no bank approval, no waiting.", color: "#a78bfa" },
-  { icon: Webhook, title: "Webhook Engine", desc: "Real-time delivery with retry logic, exponential backoff, and a full replay inspector.", color: "#60a5fa" },
-  { icon: Code2, title: "Node.js SDK", desc: "Type-safe SDK that feels like Stripe. Ship integrations in minutes, not days.", color: "#34d399" },
-  { icon: GitBranch, title: "Flow Studio", desc: "Visually design multi-step scenarios: Created → Processing → Refunded, all without code.", color: "#f59e0b" },
-  { icon: Activity, title: "Live Debugger", desc: "Inspect every payload, header, and response in real-time as events flow through your system.", color: "#f43f5e" },
-  { icon: Cpu, title: "Zero Config", desc: "Spin up in 60 seconds. No accounts to link, no servers to deploy, no compliance gatekeepers.", color: "#06b6d4" },
+  { icon: Webhook, title: "Webhook Debugger", desc: "See exactly what your server receives. Inspect payloads, headers, and simulate events.", color: "#60a5fa" },
+  { icon: GitBranch, title: "Flow Simulator", desc: "Test every edge case visually. Force create payments, simulate delays, and trigger refunds.", color: "#f59e0b" },
+  { icon: Zap, title: "Demo Links", desc: "Share payment flows instantly. Generate hosted checkouts for client demos in one click.", color: "#a78bfa" },
+  { icon: Code2, title: "Node.js SDK", desc: "Type-safe SDK built for speed. Drop-in replacement for Stripe/Razorpay in your test environment.", color: "#34d399" },
+  { icon: Activity, title: "Live Inspector", desc: "Watch API calls and webhook deliveries stream in real-time as your app processes payments.", color: "#f43f5e" },
+  { icon: Cpu, title: "Zero Setup", desc: "No KYC, no bank accounts, no compliance forms. Get a working API key in 5 seconds.", color: "#06b6d4" },
 ];
 
 export default function LandingPage() {
@@ -226,7 +226,6 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center gap-6 text-sm text-gray-400">
             <Link href="/docs" className="hover:text-white transition-colors">Docs</Link>
             <Link href="/#pricing" className="hover:text-white transition-colors">Pricing</Link>
-            <a href="https://github.com/Garrur/MockPay" target="_blank" className="hover:text-white transition-colors flex items-center gap-1">GitHub <ExternalLink className="w-3 h-3" /></a>
           </div>
           <div className="flex items-center gap-3">
             <Link href="/sign-in" className="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block">Sign in</Link>
@@ -253,77 +252,163 @@ export default function LandingPage() {
         {/* Flow step labels — floated above canvas */}
         <motion.div
           style={{ y, opacity }}
-          className="relative z-20 flex gap-24 mb-2 mt-32 sm:mt-0 hidden md:flex"
+          className="relative z-20 flex gap-24 mb-2 mt-20 sm:mt-0 hidden md:flex"
         >
           <FlowLabel label="Created" color="#60a5fa" status="pk_test_..." />
-          <FlowLabel label="Processing" color="#a78bfa" status="~120ms" />
+          <FlowLabel label="Simulated" color="#a78bfa" status="~120ms" />
           <FlowLabel label="Success" color="#34d399" status="200 OK" />
         </motion.div>
 
-        {/* Hero content */}
-        <div className="relative z-20 text-center max-w-4xl mt-8 md:mt-0">
-          <motion.div
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-medium text-violet-300 mb-8 backdrop-blur-sm"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse" />
-            Zero KYC · Node.js SDK · Stripe-Like DX
-          </motion.div>
+        {/* Hero content - Two Column Layout */}
+        <div className="relative z-20 w-full max-w-7xl mx-auto mt-12 grid lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left: Copy & CTAs */}
+          <div className="text-left">
+            <motion.div
+              initial={{ opacity: 0, y: -16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1.5 text-xs font-medium text-violet-300 mb-8 backdrop-blur-sm"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              Built for developers
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-[1.04] mb-6"
-          >
-            Debug and Test
-            <br />
-            <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Payment Systems
-            </span>
-            <br />
-            Without KYC.
-          </motion.h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-[1.04] mb-6"
+            >
+              Debug
+              <br />
+              <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
+                Payment Systems
+              </span>
+              <br />
+              Without KYC.
+            </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-          >
-            The fastest way to simulate Stripe, Razorpay, and PayPal flows for demos, testing, and development. 
-            Spin up a hosted checkout in one API call.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg text-gray-400 max-w-xl mb-10 leading-relaxed"
+            >
+              Simulate Stripe, Razorpay, and PayPal flows in seconds. Test webhooks, edge cases, and payment states — without real money.
+            </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <RippleButton href="/sign-up">
-              Start for free <ArrowRight className="w-4 h-4" />
-            </RippleButton>
-            <RippleButton href="/docs" variant="ghost">
-              <Terminal className="w-4 h-4" /> Read the docs
-            </RippleButton>
-          </motion.div>
+            {/* SDK install snippet above fold */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mb-8"
+            >
+              <NpmInstallBadge />
+            </motion.div>
 
-          {/* SDK install snippet */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-8 flex justify-center"
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 items-center"
+            >
+              <RippleButton href="/demo/test_db_demo">
+                Try Live Demo <ArrowRight className="w-4 h-4" />
+              </RippleButton>
+              <RippleButton href="/sign-up" variant="ghost">
+                <Terminal className="w-4 h-4" /> Get API Key
+              </RippleButton>
+            </motion.div>
+            
+            <motion.div 
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               transition={{ duration: 0.6, delay: 0.5 }}
+               className="mt-6 flex items-center gap-4 text-xs font-medium text-gray-500"
+            >
+               <span className="flex items-center gap-1"><Check className="w-3 h-3 text-green-500" /> No real money processed</span>
+               <span className="flex items-center gap-1"><Check className="w-3 h-3 text-green-500" /> Free forever</span>
+            </motion.div>
+          </div>
+
+          {/* Right: Interactive WOW Element Mini Checkout */}
+          <motion.div 
+             initial={{ opacity: 0, scale: 0.95, x: 20 }}
+             animate={{ opacity: 1, scale: 1, x: 0 }}
+             transition={{ duration: 0.8, delay: 0.3 }}
+             className="relative mx-auto w-full max-w-md"
           >
-            <NpmInstallBadge />
+             <div className="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-violet-600 to-blue-500 opacity-20 blur-2xl"></div>
+             <TiltCard className="p-1 overflow-hidden">
+                <div className="bg-[#0b0b12] rounded-xl border border-white/5 p-6 backdrop-blur-2xl">
+                   <div className="flex justify-between items-center mb-6">
+                      <div className="flex items-center gap-2 font-bold text-white">
+                         <div className="w-6 h-6 rounded bg-gradient-to-br from-violet-500 to-blue-500 flex items-center justify-center text-[10px] font-bold">S</div>
+                         SandboxPay
+                      </div>
+                      <div className="text-right">
+                         <div className="text-xs text-gray-500">Test Amount</div>
+                         <div className="text-xl font-bold font-mono">₹500.00</div>
+                      </div>
+                   </div>
+                   
+                   <div className="space-y-4 mb-6">
+                      <div className="h-10 w-full bg-white/5 border border-white/10 rounded-lg flex items-center px-3 gap-3 text-sm text-gray-500">
+                         <CreditCard className="w-4 h-4" /> 4242 4242 4242 4242
+                      </div>
+                      <div className="flex gap-4">
+                         <div className="h-10 w-1/2 bg-white/5 border border-white/10 rounded-lg flex items-center px-3 text-sm text-gray-500">12 / 28</div>
+                         <div className="h-10 w-1/2 bg-white/5 border border-white/10 rounded-lg flex items-center px-3 text-sm text-gray-500">123</div>
+                      </div>
+                   </div>
+
+                   <MiniCheckoutPayButton />
+                   
+                   <p className="mt-4 text-center text-[10px] text-gray-500 uppercase tracking-wider flex justify-center items-center gap-1">
+                      <ShieldAlert className="w-3 h-3" /> Test Mode Only
+                   </p>
+                </div>
+             </TiltCard>
           </motion.div>
         </div>
 
         {/* Bottom gradient fade into next section */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050508] to-transparent z-20 pointer-events-none" />
+      </section>
+
+      {/* ══════════════════════════════════════════ */}
+      {/* USE CASE CARDS ═══════════════════════════ */}
+      {/* ══════════════════════════════════════════ */}
+      <section className="relative z-10 py-24 px-6 bg-black/40 border-y border-white/5">
+         <div className="max-w-6xl mx-auto">
+            <motion.div
+               initial={{ opacity: 0, y: 32 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               transition={{ duration: 0.6 }}
+               className="text-center mb-16"
+            >
+               <h2 className="text-3xl font-extrabold tracking-tight mb-4">
+                  Built for developers who need to <span className="text-violet-400 hover:text-blue-400 transition-colors cursor-pointer">move fast.</span>
+               </h2>
+            </motion.div>
+
+            <div className="grid md:grid-cols-4 gap-4">
+               {[
+                  { title: "Hackathons", desc: "Don't waste 4 hours waiting for API keys to be approved. Build instantly." },
+                  { title: "SaaS MVPs", desc: "Validate your product flows before you even register a company." },
+                  { title: "Payment Debugging", desc: "Simulate exact failure states to bulletproof your error handling." },
+                  { title: "College Projects", desc: "Build realistic E-commerce platforms without using real credentials." }
+               ].map((uc, i) => (
+                  <TiltCard key={uc.title} className="p-6 border-white/5 bg-white/[0.02]">
+                     <h3 className="font-bold text-white mb-2 text-lg">{uc.title}</h3>
+                     <p className="text-gray-500 text-sm leading-relaxed">{uc.desc}</p>
+                  </TiltCard>
+               ))}
+            </div>
+         </div>
       </section>
 
       {/* ══════════════════════════════════════════ */}
@@ -339,11 +424,7 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
-              Build in{" "}
-              <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                minutes
-              </span>
-              , not days.
+              Everything via SDK.
             </h2>
             <p className="text-gray-400 text-lg">Two snippets. That's all it takes to simulate a full payment lifecycle.</p>
           </motion.div>
@@ -355,7 +436,7 @@ export default function LandingPage() {
                   <CreditCard className="w-4 h-4 text-violet-400" />
                   <span className="text-sm font-bold text-gray-300">Create a payment</span>
                 </div>
-                <CodeBlock code={HERO_CODE} lang="node.js" />
+                <CodeBlock code={HERO_CODE} lang="javascript" />
               </TiltCard>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
@@ -471,16 +552,12 @@ export default function LandingPage() {
             <div className="rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-900/20 to-[#050508] p-16 shadow-[0_0_80px_rgba(124,58,237,0.1)]">
               <div className="text-6xl mb-6">⚡</div>
               <h2 className="text-4xl sm:text-5xl font-extrabold mb-4">
-                Ship faster.<br />
-                <span className="text-violet-400">Zero friction.</span>
+                Stop fighting payment gateways.
               </h2>
-              <p className="text-gray-400 text-lg mb-10">Make your first test payment in under 60 seconds. No card required.</p>
+              <p className="text-gray-400 text-lg mb-10">Get your API key in seconds. Start simulating immediately.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <RippleButton href="/sign-up">
-                  Start building for free <ArrowRight className="w-4 h-4" />
-                </RippleButton>
-                <RippleButton href="https://github.com/Garrur/MockPay" variant="ghost">
-                  <Star className="w-4 h-4" /> Star on GitHub
+                  Start Building for Free <ArrowRight className="w-4 h-4" />
                 </RippleButton>
               </div>
             </div>
@@ -498,7 +575,6 @@ export default function LandingPage() {
           <div>Built with ♥ by Utkarsh Raj · MIT License</div>
           <div className="flex gap-4">
             <Link href="/docs" className="hover:text-white transition-colors">Docs</Link>
-            <a href="https://github.com/Garrur/MockPay" target="_blank" className="hover:text-white transition-colors">GitHub</a>
           </div>
         </div>
       </footer>
@@ -520,6 +596,47 @@ function NpmInstallBadge() {
       <span className="text-gray-600 group-hover:text-violet-400 transition-colors">
         {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
       </span>
+    </button>
+  );
+}
+
+// ── Mini Checkout Pay Button ──────────────────────────────────
+function MiniCheckoutPayButton() {
+  const [state, setState] = useState<"idle" | "loading" | "success">("idle");
+
+  const handlePay = () => {
+    if (state !== "idle") return;
+    setState("loading");
+    setTimeout(() => {
+      setState("success");
+      setTimeout(() => setState("idle"), 3000);
+    }, 1500);
+  };
+
+  return (
+    <button
+      onClick={handlePay}
+      disabled={state !== "idle"}
+      className="relative w-full h-12 rounded-xl font-bold text-white overflow-hidden transition-all flex items-center justify-center
+                 bg-violet-600 hover:bg-violet-500 disabled:opacity-90 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(124,58,237,0.3)]"
+    >
+      <AnimatePresence mode="wait">
+        {state === "idle" && (
+          <motion.span key="idle" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="flex items-center gap-2">
+            Pay ₹500.00
+          </motion.span>
+        )}
+        {state === "loading" && (
+          <motion.span key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-2">
+            <Loader2 className="w-5 h-5 animate-spin" /> Processing...
+          </motion.span>
+        )}
+        {state === "success" && (
+          <motion.span key="success" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.2 }} className="flex items-center gap-2 text-green-300">
+            <Check className="w-5 h-5" /> Payment Successful
+          </motion.span>
+        )}
+      </AnimatePresence>
     </button>
   );
 }

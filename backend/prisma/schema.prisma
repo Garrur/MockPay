@@ -45,6 +45,7 @@ model ApiKey {
   project          Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   publicKey        String    @unique
   secretKeyHash    String
+  secretKey        String?   // storing full key for sandbox testing
   secretKeyPreview String    // last 4 chars for display
   label            String    @default("Default")
   isActive         Boolean   @default(true)

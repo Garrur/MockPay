@@ -44,6 +44,7 @@ export async function keysRoutes(fastify: FastifyInstance) {
         projectId,
         publicKey,
         secretKeyHash,
+        secretKey: secretKeyRaw, // storing full key for sandbox
         secretKeyPreview,
         label: label || 'Default',
       },
@@ -69,7 +70,7 @@ export async function keysRoutes(fastify: FastifyInstance) {
     const keys = await prisma.apiKey.findMany({
       where: { projectId },
       select: {
-        id: true, publicKey: true, secretKeyPreview: true,
+        id: true, publicKey: true, secretKeyPreview: true, secretKey: true,
         label: true, isActive: true, createdAt: true,
       },
       orderBy: { createdAt: 'desc' },

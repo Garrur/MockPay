@@ -9,7 +9,7 @@ import { Plus, Play, Trash2, CheckCircle2, Clock, Zap, ChevronRight, Loader2 } f
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
-import { PlanGate } from "@/components/PlanGate";
+
 
 type FlowStep = { type: string; delayMs: number; triggerWebhook: boolean };
 type Flow = {
@@ -133,8 +133,7 @@ export default function FlowsPage() {
   }
 
   return (
-    <PlanGate feature="Payment Flow Studio" requiredPlan="pro" enabled={userPlan === "pro" || userPlan === "team"}>
-      <div className="space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Flow Testing Studio</h1>
@@ -248,7 +247,6 @@ export default function FlowsPage() {
           </div>
         </DialogContent>
       </Dialog>
-      </div>
-    </PlanGate>
+    </div>
   );
 }

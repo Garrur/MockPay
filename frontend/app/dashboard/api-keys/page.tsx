@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Copy, Plus, Trash2, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function ApiKeysPage() {
   const { getToken } = useAuth();
@@ -16,6 +16,9 @@ export default function ApiKeysPage() {
   const [projectId, setProjectId] = useState<string | null>(null);
   const [newSecret, setNewSecret] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [nameDialogOpen, setNameDialogOpen] = useState(false);
+  const [keyName, setKeyName] = useState("");
+  const [hoveredSecretId, setHoveredSecretId] = useState<string | null>(null);
 
   useEffect(() => {
     async function init() {
@@ -54,12 +57,19 @@ export default function ApiKeysPage() {
     setLoading(false);
   }
 
+  async function openCreateDialog() {
+    setKeyName("");
+    setNameDialogOpen(true);
+  }
+
   async function createKey() {
+    if (!keyName.trim()) return toast.error("Please enter a name for the API key");
+    setNameDialogOpen(false);
     const token = await getToken();
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/keys`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ label: "Live Key" })
+      body: JSON.stringify({ label: keyName.trim() })
     });
     const data = await res.json();
     setNewSecret(data.secretKey);
@@ -88,11 +98,40 @@ export default function ApiKeysPage() {
           <h1 className="text-2xl font-bold tracking-tight text-white mb-2">API Keys</h1>
           <p className="text-gray-400">Manage your project's public and secret keys to authenticate API requests.</p>
         </div>
-        <Button onClick={createKey} className="bg-primary hover:bg-primary/90 text-white">
+        <Button onClick={openCreateDialog} className="bg-primary hover:bg-primary/90 text-white">
           <Plus className="w-4 h-4 mr-2" /> Generate New Key
         </Button>
       </div>
 
+      {/* Name Dialog */}
+      <Dialog open={nameDialogOpen} onOpenChange={setNameDialogOpen}>
+        <DialogContent className="bg-[#111118] border-white/10 text-white sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Name your API Key</DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Give this key a memorable label so you can identify it later.
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            placeholder="e.g. Production Key, Dev Key..."
+            value={keyName}
+            onChange={(e) => setKeyName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && createKey()}
+            className="bg-black border-white/10 text-white mt-2"
+            autoFocus
+          />
+          <DialogFooter className="mt-4">
+            <Button variant="ghost" onClick={() => setNameDialogOpen(false)} className="text-gray-400">
+              Cancel
+            </Button>
+            <Button onClick={createKey} className="bg-primary hover:bg-primary/90 text-white">
+              Generate Key
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Secret reveal Dialog */}
       <Dialog open={!!newSecret} onOpenChange={(open) => !open && setNewSecret(null)}>
         <DialogContent className="bg-[#111118] border-white/10 text-white sm:max-w-md">
           <DialogHeader>
@@ -138,8 +177,28 @@ export default function ApiKeysPage() {
                     <Copy className="w-3 h-3 text-gray-500 cursor-pointer hover:text-white" onClick={() => copyToClipboard(key.publicKey)} />
                   </div>
                 </TableCell>
-                <TableCell>
-                  <code className="text-xs text-gray-400 bg-black px-2 py-1 rounded">sk_test_......{key.secretKeyPreview}</code>
+                <TableCell
+                  onMouseEnter={() => setHoveredSecretId(key.id)}
+                  onMouseLeave={() => setHoveredSecretId(null)}
+                >
+                  <div className="flex items-center gap-2">
+                    <code className="text-xs text-gray-400 bg-black px-2 py-1 rounded">sk_test_......{key.secretKeyPreview}</code>
+                    {hoveredSecretId === key.id && (
+                      <button
+                        title="Copy full secret key"
+                        onClick={() => {
+                          if (key.secretKey) {
+                            copyToClipboard(key.secretKey);
+                          } else {
+                            toast.info("Full key is not available for this legacy key. Revoke and create a new key if needed.");
+                          }
+                        }}
+                        className="text-gray-500 hover:text-white transition-colors"
+                      >
+                        <Copy className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
                 </TableCell>
                 <TableCell>
                   {key.isActive ? (

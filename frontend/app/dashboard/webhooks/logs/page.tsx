@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle2, XCircle, Clock, RefreshCw, ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
-import { PlanGate } from "@/components/PlanGate";
+
 
 type WhEvent = {
   id: string;
@@ -176,8 +176,7 @@ export default function WebhookLogsPage() {
   const EVENT_TYPES = ["all", "payment.created", "payment.success", "payment.failed", "payment.cancelled"];
 
   return (
-    <PlanGate feature="Webhook Debugger" requiredPlan="pro" enabled={userPlan === "pro" || userPlan === "team"}>
-      <div className="space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Webhook Debugger</h1>
@@ -250,7 +249,6 @@ export default function WebhookLogsPage() {
           <Button variant="ghost" size="sm" disabled={page * 20 >= total} onClick={() => setPage(p => p + 1)}>Next →</Button>
         </div>
       )}
-      </div>
-    </PlanGate>
+    </div>
   );
 }

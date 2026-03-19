@@ -72,8 +72,21 @@ This document outlines the evolution of SandboxPay from a basic payment simulato
 
 ---
 
+## 📦 Phase 12: Node.js SDK & Demo Site (MockMart)
+**Objective:** Simplify developer integration and provide a functional blueprint for SaaS users.
+
+- **Official Node.js SDK**: Published `@utkarsh_raj32/sandboxpay-js`, abstracting API calls into a clean class-based developer experience.
+- **MockMart Demo Implementation**:
+  - Developed a standalone Next.js E-commerce store (`/demosite`) to showcase real integration.
+  - **Full Payment Lifecycle**: Implemented "Buy Now", "Cancel", and "Refund" flows.
+  - **Webhook Connectivity**: Built an `/api/webhook` listener that maps SandboxPay events to a local SQLite database for instant UI updates.
+  - **Walkthrough**: Created an interactive guide for developers to test Webhook Debugger and Flow Studio using the demo site.
+
+---
+
 ## 📅 Roadmap: What's Next?
-- **Phase 9**: **Node.js SDK** — A dedicated package to simplify integration to 3 lines of code.
-- **Phase 10**: **Live Monetization** — Integrating Stripe for actual user upgrades and recurring revenue.
+- **Phase 13**: **Live Monetization** — Integrating Stripe for actual user upgrades and recurring revenue.
+- **Phase 14**: **Analytics Dashboard** — Charts for tracking payment success rates and webhook latency.
 
 **Status:** `STABLE` | **Coverage:** `100% TS Verified`
+

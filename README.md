@@ -31,8 +31,8 @@ SandboxPay is a developer-first payment gateway simulator that allows you to int
 d:\Mockpay\
 ├── frontend/          # Next.js Dashboard & Landing Page (Port 3000)
 ├── backend/           # Fastify API Server & Simulation Engine (Port 4000)
-├── sdk/               # SandboxPay Node.js SDK
-├── web-app/           # Demo Shopify-like integration (Port 3001)
+├── packages/sdk/      # SandboxPay Node.js SDK (Published to NPM)
+├── client/            # External SDK Demo integration (Port 5173)
 └── docs/              # API Reference & Guides
 ```
 
@@ -54,7 +54,7 @@ cd MockPay
 # Install in all directories
 cd frontend && npm install
 cd ../backend && npm install
-cd ../web-app && npm install
+cd ../client && npm install
 ```
 
 ### 3. Environment Variables
@@ -69,8 +69,8 @@ cd backend && npm run dev
 # Terminal 2: Frontend
 cd frontend && npm run dev
 
-# Terminal 3: Demo App
-cd web-app && npm run dev
+# Terminal 3: External Demo
+cd client && npm run dev
 ```
 
 ---

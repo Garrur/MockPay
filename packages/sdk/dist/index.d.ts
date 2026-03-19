@@ -35,7 +35,7 @@ export interface SimulationParams {
 /**
  * The SandboxPay Client
  */
-export default class SandboxPay {
+export declare class SandboxPay {
     private client;
     constructor(config: SandboxPayConfig);
     /**
@@ -69,3 +69,4 @@ export default class SandboxPay {
      */
     webhookHandler(secret: string, callback: (event: any) => void | Promise<void>): (req: any, res: any) => Promise<any>;
 }
+export default SandboxPay;

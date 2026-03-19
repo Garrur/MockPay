@@ -50,7 +50,7 @@ export interface SimulationParams {
 /**
  * The SandboxPay Client
  */
-export default class SandboxPay {
+export class SandboxPay {
   private client: AxiosInstance;
 
   constructor(config: SandboxPayConfig) {
@@ -59,7 +59,7 @@ export default class SandboxPay {
     }
 
     this.client = axios.create({
-      baseURL: config.baseUrl || 'http://localhost:4000/api',
+      baseURL: config.baseUrl || 'https://mockpay.onrender.com/api',
       headers: {
         'Authorization': `Bearer ${config.apiKey}`,
         'Content-Type': 'application/json',
@@ -155,3 +155,5 @@ export default class SandboxPay {
     };
   }
 }
+
+export default SandboxPay;

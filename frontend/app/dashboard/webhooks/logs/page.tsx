@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CheckCircle2, XCircle, Clock, RefreshCw, ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
+import { PlanGate } from "@/components/PlanGate";
 
 type WhEvent = {
   id: string;
@@ -136,6 +137,7 @@ export default function WebhookLogsPage() {
   const [typeFilter, setTypeFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [userPlan, setUserPlan] = useState<string>("free");
 
   const fetchEvents = useCallback(async (pid: string, tok: string) => {
     const params = new URLSearchParams({ project_id: pid, page: String(page), limit: "20" });
@@ -158,6 +160,7 @@ export default function WebhookLogsPage() {
       if (!token) return;
       const pRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects`, { headers: { Authorization: `Bearer ${token}` } });
       const pData = await pRes.json();
+      if (pData.plan) setUserPlan(pData.plan);
       const pId = pData.projects?.[0]?.id;
       if (pId) {
         setProjectId(pId);
@@ -173,7 +176,8 @@ export default function WebhookLogsPage() {
   const EVENT_TYPES = ["all", "payment.created", "payment.success", "payment.failed", "payment.cancelled"];
 
   return (
-    <div className="space-y-6">
+    <PlanGate feature="Webhook Debugger" requiredPlan="pro" enabled={userPlan === "pro" || userPlan === "team"}>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Webhook Debugger</h1>
@@ -246,6 +250,7 @@ export default function WebhookLogsPage() {
           <Button variant="ghost" size="sm" disabled={page * 20 >= total} onClick={() => setPage(p => p + 1)}>Next →</Button>
         </div>
       )}
-    </div>
+      </div>
+    </PlanGate>
   );
 }

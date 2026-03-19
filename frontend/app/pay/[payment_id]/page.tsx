@@ -346,6 +346,18 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
                 <span className="text-[10px] font-bold">MASTERCARD</span>
                 <span className="text-[10px] font-bold">PCI-DSS</span>
               </div>
+
+              <div className="mt-6 flex justify-center w-full">
+                <a 
+                  href="/?ref=viral_badge" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-black/40 hover:bg-black/60 border border-white/5 rounded-full transition-all hover:border-white/10 group"
+                >
+                  <div className="flex w-4 h-4 items-center justify-center rounded-[4px] bg-primary/20 text-primary text-[8px] font-bold group-hover:bg-primary group-hover:text-white transition-colors animate-pulse group-hover:animate-none">S</div>
+                  <span className="text-[10px] font-medium text-gray-400 group-hover:text-white transition-colors">Built with SandboxPay</span>
+                </a>
+              </div>
             </div>
           </motion.div>
         ) : status === "processing" ? (
@@ -429,6 +441,17 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
               <div className="flex items-center gap-2 justify-center text-[10px] text-gray-600 font-bold uppercase tracking-widest">
                 <ShieldCheck className="w-3 h-3 text-green-500/50" />
                 Powered by SandboxPay Safety
+              </div>
+
+              <div className="pt-2 flex justify-center w-full">
+                <a 
+                  href="/?ref=viral_badge" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all group opacity-80 hover:opacity-100"
+                >
+                  <span className="text-[10px] font-medium text-gray-400 group-hover:text-white">⚡ Built with SandboxPay</span>
+                </a>
               </div>
             </div>
           </motion.div>

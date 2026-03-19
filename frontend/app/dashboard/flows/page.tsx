@@ -9,6 +9,7 @@ import { Plus, Play, Trash2, CheckCircle2, Clock, Zap, ChevronRight, Loader2 } f
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
+import { PlanGate } from "@/components/PlanGate";
 
 type FlowStep = { type: string; delayMs: number; triggerWebhook: boolean };
 type Flow = {
@@ -59,6 +60,7 @@ export default function FlowsPage() {
   const [newName, setNewName] = useState("");
   const [newSteps, setNewSteps] = useState<FlowStep[]>(DEFAULT_STEPS);
   const [lastResult, setLastResult] = useState<any | null>(null);
+  const [userPlan, setUserPlan] = useState<string>("free");
 
   useEffect(() => {
     async function init() {
@@ -66,6 +68,7 @@ export default function FlowsPage() {
       if (!token) return;
       const pRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/projects`, { headers: { Authorization: `Bearer ${token}` } });
       const pData = await pRes.json();
+      if (pData.plan) setUserPlan(pData.plan);
       const pId = pData.projects?.[0]?.id;
       if (pId) { setProjectId(pId); fetchFlows(pId, token); }
     }
@@ -130,7 +133,8 @@ export default function FlowsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <PlanGate feature="Payment Flow Studio" requiredPlan="pro" enabled={userPlan === "pro" || userPlan === "team"}>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Flow Testing Studio</h1>
@@ -244,6 +248,7 @@ export default function FlowsPage() {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </PlanGate>
   );
 }

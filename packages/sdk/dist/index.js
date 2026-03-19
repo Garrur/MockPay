@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiError = exports.AuthenticationError = exports.SandboxPayError = void 0;
+exports.SandboxPay = exports.ApiError = exports.AuthenticationError = exports.SandboxPayError = void 0;
 const axios_1 = __importDefault(require("axios"));
 const crypto = __importStar(require("crypto"));
 /**
@@ -75,7 +75,7 @@ class SandboxPay {
             throw new AuthenticationError('API Key is required to initialize SandboxPay');
         }
         this.client = axios_1.default.create({
-            baseURL: config.baseUrl || 'http://localhost:4000/api',
+            baseURL: config.baseUrl || 'https://mockpay.onrender.com/api',
             headers: {
                 'Authorization': `Bearer ${config.apiKey}`,
                 'Content-Type': 'application/json',
@@ -159,4 +159,5 @@ class SandboxPay {
         };
     }
 }
+exports.SandboxPay = SandboxPay;
 exports.default = SandboxPay;

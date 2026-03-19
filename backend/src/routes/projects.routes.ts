@@ -53,7 +53,7 @@ export async function projectsRoutes(fastify: FastifyInstance) {
       },
       orderBy: { createdAt: 'desc' },
     });
-    return { projects };
+    return { projects, plan: req.user.plan };
   });
 
   // GET /api/projects/:id

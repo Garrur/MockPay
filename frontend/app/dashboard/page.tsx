@@ -1,7 +1,8 @@
 import { fetchApi } from "@/lib/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Activity, CreditCard, Key } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity, CreditCard, Key, Check } from "lucide-react";
 import { redirect } from "next/navigation";
+import { OnboardingSetup } from "@/components/OnboardingSetup";
 
 export default async function DashboardOverview() {
   let projectRes;
@@ -69,14 +70,17 @@ export default async function DashboardOverview() {
         </Card>
       </div>
 
-      {!activeProject && (
-        <Card className="bg-primary/10 border-primary/20 p-8 text-center mt-12">
-          <h3 className="text-xl font-bold mb-2 text-white">Create your first project</h3>
-          <p className="text-gray-400 mb-6">You need a SandboxPay project to generate API keys and process payments.</p>
-          {/* A client form would go here to create the project */}
-          <p className="text-sm text-primary animate-pulse">Waiting for developer onboarding setup...</p>
-        </Card>
-      )}
+      {!activeProject ? (
+        <OnboardingSetup />
+      ) : activeProject._count?.payments > 0 ? (
+        <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4 flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="bg-green-500 text-white rounded-full p-1"><Check className="w-5 h-5" /></div>
+          <div>
+            <h3 className="text-green-400 font-bold text-sm">Your first payment worked! ✅</h3>
+            <p className="text-green-500/70 text-xs">You've successfully simulated a transaction. Keep building!</p>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

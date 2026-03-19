@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { CSPostHogProvider } from "./providers";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -19,8 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
+      <CSPostHogProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -32,6 +34,7 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
+      </CSPostHogProvider>
     </ClerkProvider>
   );
 }

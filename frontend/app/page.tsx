@@ -79,7 +79,7 @@ export default function LandingPage() {
   const [showBanner, setShowBanner] = useState(true);
   const [notified, setNotified] = useState(false);
 
-  const heroCode = `import { SandboxPay } from '@sandboxpay/node';
+  const heroCode = `import { SandboxPay } from '@utkarsh_raj32/sandboxpay-js';
 
 const sp = new SandboxPay('sk_test_...');
 
@@ -117,15 +117,34 @@ if (isValid && req.body.type === 'payment.success') {
             exit={{ height: 0, opacity: 0 }}
             className="relative z-50 bg-gradient-to-r from-primary/80 via-purple-600/80 to-indigo-600/80 overflow-hidden"
           >
-            <div className="container mx-auto max-w-6xl px-4 py-2 flex items-center justify-center gap-4 text-sm">
+            <div className="container mx-auto max-w-6xl px-4 py-2 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
               <span className="font-semibold">🚀 Launching soon on Product Hunt!</span>
-              <button
-                onClick={() => setNotified(true)}
-                className="rounded-full bg-white text-black px-3 py-1 text-xs font-bold hover:bg-gray-200 transition-colors flex items-center gap-1"
-              >
-                <Bell className="w-3 h-3" /> {notified ? "You're on the list! ✓" : "Notify Me"}
-              </button>
-              <button onClick={() => setShowBanner(false)} className="absolute right-4 opacity-70 hover:opacity-100">
+              
+              {notified ? (
+                <div className="flex items-center gap-2 text-green-200 font-medium">
+                  <Check className="w-4 h-4" /> You're on the list!
+                </div>
+              ) : (
+                <form 
+                  onSubmit={(e) => { e.preventDefault(); setNotified(true); }}
+                  className="flex items-center gap-2"
+                >
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email" 
+                    required 
+                    className="h-7 rounded-sm border-none px-2 text-xs text-black outline-none w-48"
+                  />
+                  <button
+                    type="submit"
+                    className="rounded-sm bg-white text-black px-3 py-1.5 text-xs font-bold hover:bg-gray-200 transition-colors flex items-center gap-1 shadow-sm"
+                  >
+                    <Bell className="w-3 h-3" /> Notify Me
+                  </button>
+                </form>
+              )}
+
+              <button onClick={() => setShowBanner(false)} className="absolute right-4 top-1/2 -translate-y-1/2 opacity-70 hover:opacity-100">
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -174,17 +193,17 @@ if (isValid && req.body.type === 'payment.success') {
             </motion.div>
 
             <motion.h1 variants={fadeUp} className="mx-auto max-w-4xl text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-none">
-              Build Payment Flows{" "}
+              Debug and Test Payment Systems{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-indigo-400">
-                Without KYC or Real Money
+                Without KYC
               </span>
             </motion.h1>
 
             <motion.p variants={fadeUp} className="mx-auto max-w-2xl text-lg md:text-xl text-gray-400 mb-10 leading-relaxed">
-              The easiest way for students and developers to simulate Stripe-like payments for demos, hackathons, and SaaS prototypes.
+              The fastest way to simulate Stripe, Razorpay, and PayPal flows for demos, testing, and development.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
               <Link href="/sign-up">
                 <Button size="lg" className="h-14 px-8 text-base bg-primary hover:bg-primary/90 text-white rounded-full shadow-[0_0_35px_rgba(124,58,237,0.4)]">
                   Get API Keys in 10 Seconds <ArrowRight className="ml-2 h-5 w-5" />
@@ -195,6 +214,21 @@ if (isValid && req.body.type === 'payment.success') {
                   <Code2 className="h-4 w-4" /> View Demo
                 </Button>
               </Link>
+            </motion.div>
+
+            <motion.div variants={fadeUp} className="mb-20 flex justify-center">
+              <div 
+                className="flex items-center gap-3 text-sm font-mono text-gray-400 bg-[#111118]/80 backdrop-blur-xl px-4 py-2.5 rounded-full border border-white/10 cursor-pointer hover:border-white/20 hover:text-gray-300 transition-all active:scale-95"
+                onClick={() => {
+                  navigator.clipboard.writeText("npm i @utkarsh_raj32/sandboxpay-js");
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+              >
+                <Terminal className="w-4 h-4 text-purple-400" />
+                <span>npm i @utkarsh_raj32/sandboxpay-js</span>
+                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+              </div>
             </motion.div>
 
             {/* Code + UI Preview */}
@@ -208,7 +242,7 @@ if (isValid && req.body.type === 'payment.success') {
                     <div className="w-3 h-3 rounded-full bg-green-500/80" />
                   </div>
                   <div className="text-xs text-gray-400 text-left leading-7">
-                    <span className="text-purple-400">import</span> {"{ SandboxPay }"} <span className="text-purple-400">from</span> <span className="text-green-300">'@sandboxpay/node'</span>;<br />
+                    <span className="text-purple-400">import</span> {"{ SandboxPay }"} <span className="text-purple-400">from</span> <span className="text-green-300">'@utkarsh_raj32/sandboxpay-js'</span>;<br />
                     <br />
                     <span className="text-slate-400">// Create a simulated payment 💸</span><br />
                     <span className="text-purple-400">const</span> payment = <span className="text-purple-400">await</span> sp.payments.create({"{"}<br />

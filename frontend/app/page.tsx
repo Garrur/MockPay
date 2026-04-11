@@ -174,7 +174,7 @@ export default function LandingPage() {
   const [notified, setNotified] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="relative min-h-screen w-full max-w-[100vw] bg-background text-foreground overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
 
       {/* ── Animated background blobs ── */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

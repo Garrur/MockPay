@@ -28,25 +28,30 @@ type WhEvent = {
 
 function StatusBadge({ status, httpStatus }: { status: string; httpStatus?: number }) {
   if (status === "delivered") return (
-    <span className="flex items-center gap-1.5 text-green-400 text-sm font-medium">
-      <CheckCircle2 className="w-4 h-4" /> Delivered {httpStatus && <span className="text-green-300/60 text-xs">({httpStatus})</span>}
+    <span className="flex items-center gap-2 text-emerald-600 font-extrabold text-sm bg-emerald-100/50 px-3 py-1 rounded-xl shadow-sm">
+      <CheckCircle2 className="w-4 h-4" /> Delivered {httpStatus && <span className="opacity-60 text-[10px] bg-emerald-600 text-white px-1.5 rounded-md ml-1">{httpStatus}</span>}
     </span>
   );
   if (status === "failed") return (
-    <span className="flex items-center gap-1.5 text-red-400 text-sm font-medium">
-      <XCircle className="w-4 h-4" /> Failed {httpStatus && <span className="text-red-300/60 text-xs">({httpStatus})</span>}
+    <span className="flex items-center gap-2 text-red-600 font-extrabold text-sm bg-red-100/50 px-3 py-1 rounded-xl shadow-sm">
+      <XCircle className="w-4 h-4" /> Failed {httpStatus && <span className="opacity-60 text-[10px] bg-red-600 text-white px-1.5 rounded-md ml-1">{httpStatus}</span>}
     </span>
   );
-  return <span className="flex items-center gap-1.5 text-yellow-400 text-sm font-medium"><Clock className="w-4 h-4" /> Pending</span>;
+  return <span className="flex items-center gap-2 text-amber-600 font-extrabold text-sm bg-amber-100/50 px-3 py-1 rounded-xl shadow-sm animate-pulse"><Clock className="w-4 h-4" /> Pending</span>;
 }
 
 function JsonViewer({ data, label }: { data: any; label: string }) {
   return (
-    <div>
-      <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">{label}</p>
-      <pre className="bg-black/40 border border-white/10 rounded-lg p-4 text-xs text-green-300 font-mono overflow-x-auto max-h-48 scrollbar-thin">
-        {JSON.stringify(data, null, 2)}
-      </pre>
+    <div className="space-y-3">
+      <p className="text-[10px] font-black text-stone-900 uppercase tracking-widest ml-1">{label}</p>
+      <div className="bg-stone-900 border border-stone-800 rounded-2xl p-5 shadow-2xl relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+           <code className="text-[9px] text-stone-700 font-mono">JSON</code>
+        </div>
+        <pre className="text-xs text-emerald-400 font-mono overflow-x-auto max-h-48 scrollbar-thin leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      </div>
     </div>
   );
 }
@@ -74,26 +79,30 @@ function EventRow({ event, onReplay, token }: { event: WhEvent; onReplay: (id: s
   };
 
   return (
-    <div className="border-b border-white/5 last:border-0">
+    <div className="border-b border-stone-100/50 last:border-0">
       <div
-        className="flex items-center gap-4 px-5 py-4 hover:bg-white/3 cursor-pointer transition-colors"
+        className={`flex items-center gap-4 px-8 py-5 hover:bg-white/50 cursor-pointer transition-all ${expanded ? "bg-stone-50/50" : ""}`}
         onClick={() => setExpanded((v: boolean) => !v)}
       >
-        <span className="text-gray-500">{expanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}</span>
-        <code className="text-xs text-primary bg-primary/10 px-2 py-1 rounded font-mono min-w-[180px]">{event.eventType}</code>
+        <span className="text-stone-700">{expanded ? <ChevronDown className="w-5 h-5 text-orange-700" /> : <ChevronRight className="w-5 h-5" />}</span>
+        <code className="text-[11px] text-orange-700 font-bold font-mono bg-orange-100/50 px-3 py-1.5 rounded-xl border border-orange-100 min-w-[200px]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{event.eventType}</code>
         <StatusBadge status={event.status} httpStatus={event.httpStatus} />
-        <span className="text-gray-600 text-xs ml-auto">{event.attempts} attempt{event.attempts !== 1 ? "s" : ""}</span>
-        <span className="text-gray-600 text-xs hidden md:block truncate max-w-[200px]">{event.webhook?.url}</span>
-        <span className="text-gray-600 text-xs">{new Date(event.createdAt).toLocaleTimeString()}</span>
-        <Button
-          size="sm"
-          variant="ghost"
-          className="text-blue-400 hover:text-blue-300 hover:bg-blue-400/10 h-8 px-2"
-          onClick={(e) => { e.stopPropagation(); handleReplay(); }}
-          disabled={replaying}
-        >
-          <RotateCcw className={`w-3.5 h-3.5 mr-1 ${replaying ? "animate-spin" : ""}`} /> Replay
-        </Button>
+        
+        <div className="ml-auto flex items-center gap-6">
+           <span className="text-stone-900 font-extrabold text-[10px] uppercase tracking-tighter bg-stone-100 px-2.5 py-1 rounded-md">{event.attempts} attempt{event.attempts !== 1 ? "s" : ""}</span>
+           <span className="text-stone-900 font-mono text-[10px] hidden lg:block truncate max-w-[200px] opacity-80" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{event.webhook?.url}</span>
+           <span className="text-stone-950 font-black text-xs whitespace-nowrap">{new Date(event.createdAt).toLocaleTimeString()}</span>
+           <Button
+             size="sm"
+             variant="ghost"
+             aria-label="Replay webhook event"
+             className="h-10 px-4 bg-white border border-stone-200 text-foreground font-bold rounded-xl hover:bg-orange-600 hover:text-white hover:border-orange-600 transition-all active:scale-95 shadow-sm"
+             onClick={(e) => { e.stopPropagation(); handleReplay(); }}
+             disabled={replaying}
+           >
+             <RotateCcw className={`w-4 h-4 mr-2 ${replaying ? "animate-spin" : ""}`} aria-hidden="true" /> Replay
+           </Button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -102,23 +111,41 @@ function EventRow({ event, onReplay, token }: { event: WhEvent; onReplay: (id: s
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden"
+            className="overflow-hidden bg-white/20"
           >
-            <div className="px-12 pb-6 pt-2 grid md:grid-cols-2 gap-6 bg-black/20">
-              <JsonViewer data={event.payload} label="Request Payload" />
-              {event.requestHeaders && <JsonViewer data={event.requestHeaders} label="Request Headers" />}
-              {event.responseBody !== undefined && (
-                <div>
-                  <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Response Body</p>
-                  <pre className="bg-black/40 border border-white/10 rounded-lg p-4 text-xs text-gray-300 font-mono overflow-x-auto max-h-32">
-                    {event.responseBody || "(empty)"}
-                  </pre>
+            <div className="px-16 pb-10 pt-4 grid xl:grid-cols-2 gap-10">
+              <div className="space-y-8">
+                 <JsonViewer data={event.payload} label="Simulation Payload" />
+                 {event.requestHeaders && <JsonViewer data={event.requestHeaders} label="Outgoing Headers" />}
+              </div>
+              <div className="space-y-8">
+                {event.responseBody !== undefined && (
+                  <div>
+                    <p className="text-[10px] font-black text-stone-900 uppercase tracking-widest ml-1 mb-3">Response Surface</p>
+                    <div className="bg-stone-50 border border-stone-200 rounded-2xl p-6 neu-pressed">
+                      <pre className="text-xs text-stone-600 font-mono overflow-x-auto max-h-48 leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                        {event.responseBody || "(EMPTY_RESPONSE)"}
+                      </pre>
+                    </div>
+                  </div>
+                )}
+                <div className="bg-white/40 border border-stone-100 rounded-3xl p-8 flex flex-col gap-4 shadow-sm backdrop-blur-md">
+                   <p className="font-black text-stone-900 text-[10px] uppercase tracking-widest">Metadata Context</p>
+                   <div className="grid grid-cols-2 gap-6">
+                      <div className="space-y-1">
+                         <span className="text-[10px] font-black text-stone-900">Payment Reference</span>
+                         <p className="text-sm font-black text-foreground">{event.payment?.orderId}</p>
+                      </div>
+                      <div className="space-y-1">
+                         <span className="text-[10px] font-black text-stone-900">Amount Processed</span>
+                          <p className="text-sm font-black text-orange-800">{((event.payment?.amount || 0) / 100).toFixed(2)} {event.payment?.currency}</p>
+                      </div>
+                      <div className="space-y-1">
+                         <span className="text-[10px] font-black text-stone-900">Final Delivery</span>
+                         <p className="text-sm font-black text-foreground">{event.deliveredAt ? new Date(event.deliveredAt).toLocaleString() : "Pending..."}</p>
+                      </div>
+                   </div>
                 </div>
-              )}
-              <div className="text-xs text-gray-500 space-y-1">
-                <p>Payment: <span className="text-gray-300">{event.payment?.orderId}</span></p>
-                <p>Amount: <span className="text-gray-300">{((event.payment?.amount || 0) / 100).toFixed(2)} {event.payment?.currency}</span></p>
-                {event.deliveredAt && <p>Delivered: <span className="text-gray-300">{new Date(event.deliveredAt).toLocaleString()}</span></p>}
               </div>
             </div>
           </motion.div>
@@ -176,79 +203,98 @@ export default function WebhookLogsPage() {
   const EVENT_TYPES = ["all", "payment.created", "payment.success", "payment.failed", "payment.cancelled"];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white mb-1">Webhook Debugger</h1>
-          <p className="text-gray-400 text-sm">Inspect every delivery attempt, payload, and response.</p>
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex items-end justify-between">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Webhook Debugger</h1>
+          <p className="text-stone-700 font-medium text-lg">Inspect every delivery attempt, payload, and response in real-time.</p>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Live
+        <div className="flex items-center gap-3 px-5 py-2.5 bg-emerald-100 text-emerald-700 rounded-full font-extrabold text-sm shadow-sm">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" /> Live Stream
         </div>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-4 flex-wrap items-center">
         <Select value={statusFilter} onValueChange={(v: string) => { setStatusFilter(v); setPage(1); }}>
-          <SelectTrigger className="w-36 h-9 bg-[#111118] border-white/10 text-white text-sm">
+          <SelectTrigger className="w-44 h-12 bg-white/60 border-stone-200 rounded-2xl text-foreground font-bold shadow-sm neu-flat">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
-          <SelectContent className="bg-[#111118] border-white/10 text-white">
+          <SelectContent className="bg-background border-stone-200 rounded-2xl text-foreground font-bold">
             <SelectItem value="all">All Status</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
             <SelectItem value="failed">Failed</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
           </SelectContent>
         </Select>
+        
         <Select value={typeFilter} onValueChange={(v: string) => { setTypeFilter(v); setPage(1); }}>
-          <SelectTrigger className="w-52 h-9 bg-[#111118] border-white/10 text-white text-sm">
+          <SelectTrigger className="w-64 h-12 bg-white/60 border-stone-200 rounded-2xl text-foreground font-bold shadow-sm neu-flat">
             <SelectValue placeholder="Event Type" />
           </SelectTrigger>
-          <SelectContent className="bg-[#111118] border-white/10 text-white">
+          <SelectContent className="bg-background border-stone-200 rounded-2xl text-foreground font-bold">
             {EVENT_TYPES.map(t => <SelectItem key={t} value={t}>{t === "all" ? "All Events" : t}</SelectItem>)}
           </SelectContent>
         </Select>
-        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white h-9" onClick={async () => {
-          const token = await getToken();
-          if (projectId && token) fetchEvents(projectId, token);
-        }}>
-          <RefreshCw className="w-4 h-4 mr-1.5" /> Refresh
+
+        <Button 
+          variant="ghost" 
+          className="h-12 px-6 bg-white border border-stone-200 text-foreground font-bold rounded-2xl hover:bg-stone-50 transition-all active:scale-95 shadow-sm" 
+          onClick={async () => {
+            const token = await getToken();
+            if (projectId && token) fetchEvents(projectId, token);
+          }}
+        >
+          <RefreshCw className="w-4 h-4 mr-2" /> Refresh
         </Button>
-        <span className="ml-auto text-sm text-gray-500 self-center">{total} total events</span>
+        
+        <span className="ml-auto text-sm font-black text-stone-950 uppercase tracking-widest opacity-80">{total} deliveries captured</span>
       </div>
 
       {/* Timeline */}
-      <div className="rounded-xl border border-white/10 bg-[#111118] overflow-hidden">
+      <div className="rounded-[3rem] border-none bg-white/40 overflow-hidden neu-flat p-1 backdrop-blur-sm">
         {loading ? (
-          <div className="py-20 text-center text-gray-500">Loading webhook events...</div>
+          <div className="py-32 text-center text-stone-600 font-medium italic">Synchronizing trace logs...</div>
         ) : events.length === 0 ? (
-          <div className="py-20 text-center">
-            <p className="text-gray-500 mb-2">No webhook events found</p>
-            <p className="text-gray-600 text-sm">Events will appear here after payments are processed.</p>
+          <div className="py-40 text-center">
+             <div className="w-20 h-20 bg-stone-100 rounded-[2rem] flex items-center justify-center mx-auto mb-8 shadow-inner">
+                <RotateCcw className="w-8 h-8 text-stone-500" />
+             </div>
+            <p className="text-foreground font-extrabold text-2xl mb-2">No webhook traffic yet</p>
+            <p className="text-stone-950 font-bold text-lg max-w-sm mx-auto opacity-80">Events will begin flowing here as soon as a payment simulation starts.</p>
           </div>
         ) : (
-          events.map((ev) => (
-            <EventRow
-              key={ev.id}
-              event={ev}
-              token=""
-              onReplay={async (_id: string) => {
-                const token = await getToken();
-                if (projectId && token) fetchEvents(projectId, token);
-              }}
-            />
-          ))
+          <div className="flex flex-col">
+            {events.map((ev) => (
+              <EventRow
+                key={ev.id}
+                event={ev}
+                token=""
+                onReplay={async (_id: string) => {
+                  const token = await getToken();
+                  if (projectId && token) fetchEvents(projectId, token);
+                }}
+              />
+            ))}
+          </div>
         )}
       </div>
 
       {/* Pagination */}
       {total > 20 && (
-        <div className="flex justify-center gap-3">
-          <Button variant="ghost" size="sm" disabled={page === 1} onClick={() => setPage(p => p - 1)}>← Prev</Button>
-          <span className="text-gray-400 text-sm self-center">Page {page} of {Math.ceil(total / 20)}</span>
-          <Button variant="ghost" size="sm" disabled={page * 20 >= total} onClick={() => setPage(p => p + 1)}>Next →</Button>
+        <div className="flex justify-center items-center gap-6 pt-10 pb-20">
+          <Button variant="ghost" className="h-12 px-8 font-black text-stone-800 hover:text-foreground hover:bg-white rounded-2xl" disabled={page === 1} onClick={() => setPage(p => p - 1)}>
+             Previous Page
+          </Button>
+          <div className="h-10 px-6 bg-white/60 border border-stone-100 rounded-xl flex items-center justify-center font-bold text-foreground text-sm shadow-sm">
+             {page} <span className="text-stone-800 font-black mx-2">/</span> {Math.ceil(total / 20)}
+          </div>
+          <Button variant="ghost" className="h-12 px-8 font-bold text-foreground hover:bg-white rounded-2xl shadow-sm border border-transparent hover:border-stone-100" disabled={page * 20 >= total} onClick={() => setPage(p => p + 1)}>
+             Next Result →
+          </Button>
         </div>
       )}
     </div>
   );
 }
+

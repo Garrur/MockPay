@@ -124,7 +124,7 @@ function DataParticle({ position }: { position: [number, number, number] }) {
   return (
     <mesh ref={ref} position={position}>
       <boxGeometry args={[0.025, 0.025, 0.025]} />
-      <meshBasicMaterial color="#7c3aed" transparent opacity={0.8} />
+      <meshBasicMaterial color="#8b5cf6" transparent opacity={0.6} />
     </mesh>
   );
 }
@@ -148,7 +148,7 @@ function GridPlane() {
   const divisions = 18;
   return (
     <gridHelper
-      args={[size, divisions, "#1a1a2e", "#1a1a2e"]}
+      args={[size, divisions, "#d6d3d1", "#e7e5e4"]}
       position={[0, -1.8, 0]}
       rotation={[0, 0, 0]}
     />
@@ -177,14 +177,13 @@ function Scene({ mouse }: { mouse: React.MutableRefObject<{ x: number; y: number
   return (
     <>
       <CameraRig mouse={mouse} />
-      <Stars radius={50} depth={30} count={1200} factor={3} saturation={0} fade speed={0.4} />
       <GridPlane />
       
       {/* Ambient + Directional lighting */}
-      <ambientLight intensity={0.3} />
-      <pointLight position={[-2.2, 2, 1]} intensity={8} color="#60a5fa" distance={6} decay={2} />
-      <pointLight position={[0, 3, 0]} intensity={10} color="#7c3aed" distance={8} decay={2} />
-      <pointLight position={[2.2, 2, 1]} intensity={8} color="#34d399" distance={6} decay={2} />
+      <ambientLight intensity={0.8} />
+      <pointLight position={[-2.2, 2, 1]} intensity={5} color="#60a5fa" distance={6} decay={2} />
+      <pointLight position={[0, 3, 0]} intensity={6} color="#c084fc" distance={8} decay={2} />
+      <pointLight position={[2.2, 2, 1]} intensity={5} color="#34d399" distance={6} decay={2} />
 
       {/* Connection Lines */}
       <FlowLine start={[-2.2, 0, 0]} end={[0, 0.4, 0]} color="#7c3aed" />

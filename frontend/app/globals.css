@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
@@ -39,26 +40,59 @@
 
 @layer base {
   :root {
-    --background: oklch(0.12 0.01 280); /* extremely dark gray #0a0a0f */
-    --foreground: oklch(0.98 0 0);
-    --card: oklch(0.15 0.01 280);      /* slightly lighter dark #111118 */
-    --card-foreground: oklch(0.98 0 0);
-    --popover: oklch(0.15 0.01 280);
-    --popover-foreground: oklch(0.98 0 0);
-    --primary: oklch(0.48 0.2 285);    /* deep violet */
-    --primary-foreground: oklch(0.98 0 0);
-    --secondary: oklch(0.2 0.02 280);
-    --secondary-foreground: oklch(0.9 0 0);
-    --muted: oklch(0.2 0.02 280);
-    --muted-foreground: oklch(0.7 0 0);
-    --accent: oklch(0.48 0.2 285);
-    --accent-foreground: oklch(0.98 0 0);
-    --destructive: oklch(0.4 0.2 20);
-    --destructive-foreground: oklch(0.98 0 0);
-    --border: oklch(0.25 0.01 280);
-    --input: oklch(0.25 0.01 280);
-    --ring: oklch(0.48 0.2 285);
-    --radius: 0.5rem;
+    --background: oklch(0.78 0.04 65); /* Rich Deep Amber Sand */
+    --foreground: oklch(0.15 0.02 65);  /* Deep earthy charcoal */
+    --card: var(--background);
+    --card-foreground: var(--foreground);
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+    --primary: oklch(0.55 0.15 48);     /* Richer Burnt Terracotta */
+    --primary-foreground: white;
+    --secondary: oklch(0.72 0.04 65);    /* Deeper warm gold */
+    --secondary-foreground: oklch(0.25 0.03 65); 
+    --muted: oklch(0.72 0.04 65);
+    --muted-foreground: oklch(0.35 0.04 65); 
+    --accent: oklch(0.55 0.15 48);     
+    --accent-foreground: var(--primary-foreground);
+    --destructive: oklch(0.50 0.18 25);
+    --destructive-foreground: white;
+    --border: oklch(0.65 0.04 65);
+    --input: oklch(0.65 0.04 65);
+    --ring: oklch(0.55 0.15 48);
+    --radius: 1.5rem; 
+
+    /* Recalibrated Neumorphic Shadow Tokens for Darker Background */
+    --neu-light: -6px -6px 14px oklch(0.86 0.03 65);
+    --neu-dark: 6px 6px 14px oklch(0.62 0.06 65);
+    --neu-pressed-light: inset -4px -4px 10px oklch(0.86 0.03 65);
+    --neu-pressed-dark: inset 4px 4px 10px oklch(0.62 0.06 65);
+  }
+}
+
+@layer utilities {
+  .neu-flat {
+    background: var(--background);
+    box-shadow: var(--neu-light), var(--neu-dark);
+  }
+  .neu-convex {
+    background: linear-gradient(145deg, oklch(0.82 0.04 65), oklch(0.74 0.04 65));
+    box-shadow: var(--neu-light), var(--neu-dark);
+  }
+  .neu-concave {
+    background: linear-gradient(145deg, oklch(0.74 0.04 65), oklch(0.82 0.04 65));
+    box-shadow: var(--neu-light), var(--neu-dark);
+  }
+  .neu-pressed {
+    background: var(--background);
+    box-shadow: var(--neu-pressed-light), var(--neu-pressed-dark);
+  }
+  .neu-button {
+    @apply transition-all duration-200;
+    box-shadow: -4px -4px 12px oklch(0.86 0.03 65), 4px 4px 12px oklch(0.62 0.06 65);
+  }
+  .neu-button:active {
+    box-shadow: inset -2px -2px 6px oklch(0.86 0.03 65), inset 2px 2px 6px oklch(0.62 0.06 65);
+    transform: translateY(1px);
   }
 }
 

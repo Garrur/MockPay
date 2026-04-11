@@ -92,133 +92,144 @@ export default function ApiKeysPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white mb-2">API Keys</h1>
-          <p className="text-gray-400">Manage your project's public and secret keys to authenticate API requests.</p>
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex justify-between items-end">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">API Keys</h1>
+          <p className="text-stone-900 font-bold text-lg">Manage your project's public and secret keys to authenticate API requests.</p>
         </div>
-        <Button onClick={openCreateDialog} className="bg-primary hover:bg-primary/90 text-white">
-          <Plus className="w-4 h-4 mr-2" /> Generate New Key
+        <Button 
+          onClick={openCreateDialog} 
+          className="h-12 px-6 bg-gradient-to-br from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/10 active:scale-95 transition-all"
+        >
+          <Plus className="w-5 h-5 mr-2" /> Generate Key
         </Button>
       </div>
 
       {/* Name Dialog */}
       <Dialog open={nameDialogOpen} onOpenChange={setNameDialogOpen}>
-        <DialogContent className="bg-[#111118] border-white/10 text-white sm:max-w-sm">
+        <DialogContent className="bg-background border-none neu-convex text-foreground rounded-[2rem] p-10 max-w-md">
           <DialogHeader>
-            <DialogTitle>Name your API Key</DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Give this key a memorable label so you can identify it later.
+            <DialogTitle className="text-3xl font-extrabold tracking-tight mb-2">Identify your Key</DialogTitle>
+            <DialogDescription className="text-stone-950 font-bold text-lg leading-relaxed opacity-80">
+              Give this key a memorable label (e.g., "Production", "Staging") so you can manage it later.
             </DialogDescription>
           </DialogHeader>
-          <Input
-            placeholder="e.g. Production Key, Dev Key..."
-            value={keyName}
-            onChange={(e) => setKeyName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && createKey()}
-            className="bg-black border-white/10 text-white mt-2"
-            autoFocus
-          />
-          <DialogFooter className="mt-4">
-            <Button variant="ghost" onClick={() => setNameDialogOpen(false)} className="text-gray-400">
-              Cancel
-            </Button>
-            <Button onClick={createKey} className="bg-primary hover:bg-primary/90 text-white">
-              Generate Key
-            </Button>
-          </DialogFooter>
+          <div className="space-y-6 pt-4">
+             <div className="space-y-3">
+                <label className="text-sm font-bold text-stone-900 uppercase tracking-widest ml-1">Key Label</label>
+                <Input
+                  placeholder="e.g. Production Mobile App"
+                  value={keyName}
+                  onChange={(e) => setKeyName(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && createKey()}
+                  className="h-14 bg-white/50 border-stone-200 rounded-2xl text-foreground font-medium focus:ring-orange-500/20 neu-pressed px-5"
+                  autoFocus
+                />
+             </div>
+             <div className="flex gap-4">
+                <Button variant="ghost" onClick={() => setNameDialogOpen(false)} className="flex-1 h-14 font-bold text-stone-800 hover:text-foreground rounded-2xl">
+                  Cancel
+                </Button>
+                <Button onClick={createKey} className="flex-1 h-14 bg-orange-600 hover:bg-orange-500 text-white font-extrabold rounded-2xl shadow-xl shadow-orange-500/20 transition-all active:scale-95">
+                  Generate
+                </Button>
+             </div>
+          </div>
         </DialogContent>
       </Dialog>
 
       {/* Secret reveal Dialog */}
       <Dialog open={!!newSecret} onOpenChange={(open) => !open && setNewSecret(null)}>
-        <DialogContent className="bg-[#111118] border-white/10 text-white sm:max-w-md">
+        <DialogContent className="bg-background border-none neu-convex text-foreground rounded-[2rem] p-10 max-w-lg">
           <DialogHeader>
-            <DialogTitle className="flex items-center text-orange-400">
-              <ShieldAlert className="w-5 h-5 mr-2" /> Save this Secret Key
+            <DialogTitle className="flex items-center text-3xl font-extrabold tracking-tight mb-2 gap-3">
+              <div className="p-2 bg-amber-100 text-amber-600 rounded-xl"><ShieldAlert className="w-6 h-6" /></div>
+              Secret Key Reveal
             </DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Please copy your new secret key now. You won't be able to see it again after closing this dialog.
+            <DialogDescription className="text-stone-950 font-bold text-lg leading-relaxed opacity-80">
+              Copy your secret key now. <span className="text-amber-700 font-black">You will never see it again</span> once this window is closed.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex bg-black border border-white/10 p-3 rounded-md mt-4 items-center">
-            <code className="text-primary font-mono text-sm flex-1 break-all mr-4">{newSecret}</code>
-            <Button size="icon" variant="ghost" className="shrink-0 text-gray-400 hover:text-white" onClick={() => copyToClipboard(newSecret!)}>
-              <Copy className="w-4 h-4" />
-            </Button>
-          </div>
-          <div className="mt-4 flex justify-end">
-            <Button onClick={() => setNewSecret(null)} className="w-full">I have saved it safely</Button>
+          <div className="group relative mt-8">
+            <div className="bg-stone-900 border border-stone-800 p-8 rounded-2xl overflow-hidden neu-pressed transition-all">
+              <code className="text-emerald-400 font-mono text-sm block break-all leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{newSecret}</code>
+              
+              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                <Button 
+                  size="icon" 
+                  aria-label="Copy secret key"
+                  className="h-10 w-10 bg-white/10 hover:bg-white/20 text-white rounded-xl backdrop-blur-md" 
+                  onClick={() => copyToClipboard(newSecret!)}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+            
+            <div className="mt-8">
+               <Button onClick={() => setNewSecret(null)} className="w-full h-16 bg-white border border-stone-200 text-foreground font-extrabold rounded-2xl hover:bg-stone-50 shadow-sm transition-all active:scale-95">
+                  I have saved it safely
+               </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      <div className="rounded-xl border border-white/10 bg-[#111118] overflow-hidden">
-        <Table>
-          <TableHeader className="bg-white/5 border-b border-white/10">
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="text-gray-400">NAME</TableHead>
-              <TableHead className="text-gray-400">PUBLIC KEY</TableHead>
-              <TableHead className="text-gray-400">SECRET KEY</TableHead>
-              <TableHead className="text-gray-400">STATUS</TableHead>
-              <TableHead className="text-right text-gray-400">ACTIONS</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {loading ? (
-              <TableRow><TableCell colSpan={5} className="text-center py-8 text-gray-500">Loading keys...</TableCell></TableRow>
-            ) : keys.map((key) => (
-              <TableRow key={key.id} className="border-b border-white/5 bg-[#111118] hover:bg-white/5 transition-colors">
-                <TableCell className="font-medium text-white">{key.label}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <code className="text-xs text-gray-400 bg-black px-2 py-1 rounded">{key.publicKey}</code>
-                    <Copy className="w-3 h-3 text-gray-500 cursor-pointer hover:text-white" onClick={() => copyToClipboard(key.publicKey)} />
-                  </div>
-                </TableCell>
-                <TableCell
-                  onMouseEnter={() => setHoveredSecretId(key.id)}
-                  onMouseLeave={() => setHoveredSecretId(null)}
-                >
-                  <div className="flex items-center gap-2">
-                    <code className="text-xs text-gray-400 bg-black px-2 py-1 rounded">sk_test_......{key.secretKeyPreview}</code>
-                    {hoveredSecretId === key.id && (
-                      <button
-                        title="Copy full secret key"
-                        onClick={() => {
-                          if (key.secretKey) {
-                            copyToClipboard(key.secretKey);
-                          } else {
-                            toast.info("Full key is not available for this legacy key. Revoke and create a new key if needed.");
-                          }
-                        }}
-                        className="text-gray-500 hover:text-white transition-colors"
-                      >
-                        <Copy className="w-3 h-3" />
-                      </button>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {key.isActive ? (
-                    <Badge className="bg-green-500/10 text-green-400 hover:bg-green-500/20 shadow-none border-none">Active</Badge>
-                  ) : (
-                    <Badge variant="outline" className="text-gray-500 border-gray-500">Revoked</Badge>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  {key.isActive && (
-                    <Button variant="ghost" size="icon" className="text-red-400 hover:text-red-300 hover:bg-red-400/10" onClick={() => revokeKey(key.id)}>
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                  )}
-                </TableCell>
+      <div className="rounded-[2.5rem] border-none bg-white/40 neu-flat overflow-hidden p-1 backdrop-blur-sm">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader className="bg-orange-950/5 border-b border-orange-900/10">
+              <TableRow className="hover:bg-transparent border-none">
+                <TableHead className="text-stone-900 font-black text-[10px] uppercase tracking-widest py-5 px-8">Label</TableHead>
+                <TableHead className="text-stone-900 font-black text-[10px] uppercase tracking-widest py-5 px-8">Public Key</TableHead>
+                <TableHead className="text-stone-900 font-black text-[10px] uppercase tracking-widest py-5 px-8">Secret Preview</TableHead>
+                <TableHead className="text-stone-900 font-black text-[10px] uppercase tracking-widest py-5 px-8">Status</TableHead>
+                <TableHead className="text-right text-stone-900 font-black text-[10px] uppercase tracking-widest py-5 px-8">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                <TableRow><TableCell colSpan={5} className="text-center py-20 text-stone-600 font-medium italic">Loading keys...</TableCell></TableRow>
+              ) : keys.map((key) => (
+                <TableRow key={key.id} className="border-b border-stone-100/50 last:border-none hover:bg-white/50 transition-colors">
+                  <TableCell className="font-extrabold text-foreground py-6 px-8 text-base">{key.label}</TableCell>
+                  <TableCell className="py-6 px-8">
+                    <div className="flex items-center gap-3 group">
+                      <code className="text-[11px] text-orange-700 font-bold font-mono bg-orange-50/50 px-3 py-1.5 rounded-xl border border-orange-100 neu-pressed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{key.publicKey}</code>
+                      <button className="p-2 transition-all opacity-0 group-hover:opacity-100 hover:bg-white rounded-lg text-stone-600 hover:text-orange-700 active:scale-90" onClick={() => copyToClipboard(key.publicKey)} aria-label="Copy public key">
+                        <Copy className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-6 px-8">
+                    <div className="flex items-center gap-3 group">
+                      <code className="text-[11px] text-stone-700 font-bold font-mono bg-stone-50/50 px-3 py-1.5 rounded-xl border border-stone-100 neu-pressed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                        sk_test_......{key.secretKeyPreview}
+                      </code>
+                    </div>
+                  </TableCell>
+                  <TableCell className="py-6 px-8">
+                    {key.isActive ? (
+                      <Badge className="bg-emerald-600/10 text-emerald-700 shadow-none border-none px-4 py-1 font-extrabold rounded-full text-[10px] uppercase tracking-tighter">Active</Badge>
+                    ) : (
+                      <Badge className="bg-stone-200 text-stone-600 shadow-none border-none px-4 py-1 font-extrabold rounded-full text-[10px] uppercase tracking-tighter">Revoked</Badge>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right py-6 px-8">
+                    {key.isActive && (
+                      <Button variant="ghost" size="icon" aria-label="Revoke API key" className="h-10 w-10 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition-all" onClick={() => revokeKey(key.id)}>
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );
 }
+

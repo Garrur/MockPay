@@ -92,61 +92,61 @@ export default function DemoPage({ params }: { params: Promise<{ token: string }
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       {/* Background glow */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-200/20 rounded-full blur-3xl animate-pulse" />
       </div>
 
       <div className="relative w-full max-w-md">
         {loading ? (
-          <div className="text-center text-gray-500">
-            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" />
-            Loading demo...
+          <div className="text-center text-stone-700 font-extrabold uppercase tracking-[0.2em] text-xs">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-orange-700" />
+            Synchronizing Demo...
           </div>
         ) : error ? (
-          <div className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8 text-center">
-            <XCircle className="w-10 h-10 text-red-400 mx-auto mb-3" />
-            <p className="text-white font-semibold mb-1">Demo Unavailable</p>
-            <p className="text-gray-400 text-sm">{error}</p>
+          <div className="rounded-[2.5rem] border-none bg-red-500/5 p-12 text-center neu-flat backdrop-blur-sm">
+            <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+            <p className="text-foreground font-extrabold text-xl mb-2">Demo Unavailable</p>
+            <p className="text-stone-900 text-sm font-bold opacity-80">{error}</p>
           </div>
         ) : result ? (
           <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-            className={`rounded-2xl border p-8 text-center ${
-              result.outcome === "success" ? "border-green-500/30 bg-green-500/5" :
-              result.outcome === "failed"  ? "border-red-500/30 bg-red-500/5" :
-              "border-gray-500/30 bg-gray-500/5"
+            className={`rounded-[2.5rem] border-none p-10 text-center neu-flat backdrop-blur-sm ${
+              result.outcome === "success" ? "bg-emerald-500/5" :
+              result.outcome === "failed"  ? "bg-red-500/5" :
+              "bg-amber-500/5"
             }`}>
-            <div className="text-5xl mb-4">
+            <div className="text-5xl mb-6">
               {result.outcome === "success" ? "✅" : result.outcome === "failed" ? "❌" : "🚫"}
             </div>
-            <p className="text-white font-bold text-xl mb-2">{result.message}</p>
-            <p className="text-gray-500 text-xs font-mono mt-4">ID: {result.simulation_id}</p>
-            <p className="text-gray-600 text-xs mt-1">{new Date(result.timestamp).toLocaleString()}</p>
+            <p className="text-foreground font-extrabold text-2xl mb-2">{result.message}</p>
+            <p className="text-stone-900 text-[10px] font-mono font-black uppercase tracking-widest mt-6 opacity-70">Simulation ID: {result.simulation_id}</p>
+            <p className="text-stone-900 text-[10px] font-black mt-1 opacity-70">{new Date(result.timestamp).toLocaleString()}</p>
             <button onClick={() => setResult(null)}
-              className="mt-6 text-sm text-primary hover:text-primary/80 transition-colors">
+              className="mt-8 text-sm text-orange-600 font-bold hover:text-orange-500 transition-colors">
               ← Try another outcome
             </button>
           </motion.div>
         ) : meta ? (
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
-            className="rounded-2xl border border-white/10 bg-[#111118] overflow-hidden shadow-2xl">
+            className="rounded-[3rem] border-none bg-white/40 overflow-hidden shadow-2xl neu-flat backdrop-blur-xl">
 
             {/* Header */}
-            <div className="bg-gradient-to-r from-primary/20 to-purple-500/10 border-b border-white/10 p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="h-6 w-6 rounded bg-primary flex items-center justify-center text-white text-xs font-bold">S</div>
-                <span className="text-white font-semibold">{meta.project_name}</span>
-                <span className="ml-auto text-xs text-gray-500 bg-black/30 px-2 py-0.5 rounded-full">Demo Mode</span>
+            <div className="bg-gradient-to-br from-orange-100/50 to-amber-50/50 border-b border-stone-100 p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-orange-500/20">M</div>
+                <span className="text-foreground font-extrabold text-lg tracking-tight">{meta.project_name}</span>
+                <span className="ml-auto text-[10px] font-black uppercase tracking-widest text-stone-800 bg-white/60 px-2 py-1 rounded-md shadow-sm">Demo Mode</span>
               </div>
-              <p className="text-gray-400 text-sm mb-1">{meta.label}</p>
-              <p className="text-4xl font-bold text-white">{formatAmount(meta.amount, meta.currency)}</p>
+              <p className="text-stone-900 font-black text-xs uppercase tracking-widest mb-1 opacity-70">{meta.label}</p>
+              <p className="text-5xl font-black text-foreground tracking-tighter">{formatAmount(meta.amount, meta.currency)}</p>
             </div>
 
             {/* Body */}
-            <div className="p-6 space-y-3">
-              <p className="text-xs text-gray-500 text-center mb-4">
-                This is a sandbox simulation. No real money is involved.
+            <div className="p-8 space-y-4">
+              <p className="text-xs font-black text-stone-900 uppercase tracking-widest text-center mb-6 opacity-60">
+                Test Mode Simulation
               </p>
               {meta.allowed_outcomes.map(outcome => (
                 <OutcomeButton
@@ -159,11 +159,11 @@ export default function DemoPage({ params }: { params: Promise<{ token: string }
             </div>
 
             {/* Footer */}
-            <div className="px-6 pb-5 text-center">
-              <p className="text-xs text-gray-600">
+            <div className="px-8 pb-8 text-center">
+              <p className="text-[10px] font-black text-stone-800 uppercase tracking-widest leading-relaxed opacity-70">
                 Powered by{" "}
-                <a href="/" className="text-primary hover:underline">SandboxPay</a>
-                {" "}· No KYC · No real money
+                <a href="/" className="text-orange-600 hover:text-orange-500 transition-colors">MockPay</a>
+                {" "}· Secure Sandbox
               </p>
             </div>
           </motion.div>

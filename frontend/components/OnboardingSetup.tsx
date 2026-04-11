@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Copy, Check, Terminal, ExternalLink } from "lucide-react";
+import { Loader2, Copy, Check, Terminal, ExternalLink, Activity } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -92,85 +92,88 @@ export function OnboardingSetup() {
 
   if (step === "creating") {
     return (
-      <Card className="bg-[#111118]/80 border-white/10 p-12 text-center mt-12 max-w-2xl mx-auto shadow-2xl">
-        <Loader2 className="w-12 h-12 text-primary animate-spin mx-auto mb-6" />
-        <h3 className="text-2xl font-bold mb-2">Setting up your workspace...</h3>
-        <p className="text-gray-400">Generating secure API keys and creating your first SandboxPay project.</p>
+      <Card className="bg-white/40 border-none shadow-none neu-flat p-16 text-center mt-12 max-w-2xl mx-auto backdrop-blur-sm">
+        <div className="relative w-20 h-20 mx-auto mb-8">
+           <Loader2 className="w-20 h-20 text-orange-500 animate-spin opacity-20" />
+           <Activity className="w-10 h-10 text-orange-600 absolute inset-0 m-auto animate-pulse" />
+        </div>
+        <h3 className="text-3xl font-extrabold mb-3 text-foreground">Setting up your workspace...</h3>
+        <p className="text-stone-500 font-medium text-lg leading-relaxed">Generating secure API keys and creating your first MockPay project.</p>
       </Card>
     );
   }
 
   return (
-    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-12 max-w-3xl mx-auto">
-      <Card className="bg-gradient-to-br from-[#1a1a24] to-[#111118] border-primary/30 shadow-[0_0_50px_rgba(124,58,237,0.15)] overflow-hidden">
-        <div className="bg-primary/20 p-8 border-b border-primary/30 text-center">
-          <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-[0_0_30px_rgba(124,58,237,0.5)]">
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-12 max-w-3xl mx-auto pb-20">
+      <Card className="bg-white/40 border-none shadow-none neu-flat overflow-hidden p-1">
+        <div className="bg-gradient-to-br from-orange-600/10 to-amber-600/10 p-10 border-b border-stone-200/50 text-center">
+          <div className="w-20 h-20 bg-gradient-to-br from-orange-600 to-amber-500 text-white rounded-[2rem] flex items-center justify-center text-4xl mx-auto mb-6 shadow-xl shadow-orange-500/20">
             🚀
           </div>
-          <h2 className="text-3xl font-extrabold text-white mb-2">You're ready to build!</h2>
-          <p className="text-primary-100/70 text-lg">Your project and API keys have been generated securely.</p>
+          <h2 className="text-4xl font-extrabold text-foreground mb-3 tracking-tight">You're ready to build!</h2>
+          <p className="text-stone-500 font-medium text-lg">Your project and API keys have been generated securely.</p>
         </div>
 
-        <CardContent className="p-8 space-y-8">
+        <CardContent className="p-10 space-y-10">
           {/* Step 1: Install SDK */}
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold">1</div>
-              <h3 className="text-lg font-bold text-white">Install the Node.js SDK</h3>
+          <div className="group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-white shadow-sm border border-stone-100 text-foreground text-sm font-bold neu-flat">1</div>
+              <h3 className="text-xl font-extrabold text-foreground">Install the Node.js SDK</h3>
             </div>
             <div 
-              className="flex items-center justify-between bg-black/40 border border-white/10 rounded-xl p-4 cursor-pointer hover:border-white/30 transition-all group ml-9"
-              onClick={() => copyRef("npm install @utkarsh_raj32/sandboxpay-js", setCopiedSdk)}
+              className="flex items-center justify-between bg-stone-900 overflow-hidden border border-stone-800 rounded-2xl p-5 cursor-pointer hover:border-orange-500/30 transition-all ml-12 neu-pressed"
+              onClick={() => copyRef("npm install @utkarsh_raj32/mockpay-js", setCopiedSdk)}
             >
-              <div className="flex items-center gap-3 font-mono text-sm text-gray-300">
-                <Terminal className="w-4 h-4 text-primary" />
-                npm install @utkarsh_raj32/sandboxpay-js
+              <div className="flex items-center gap-4 font-mono text-sm text-stone-300">
+                <Terminal className="w-5 h-5 text-orange-500" />
+                <span style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>npm install @utkarsh_raj32/mockpay-js</span>
               </div>
-              <Button size="icon" variant="ghost" className="h-8 w-8 text-gray-500 group-hover:text-white">
-                {copiedSdk ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+              <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-white hover:bg-white/5">
+                {copiedSdk ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
               </Button>
             </div>
           </div>
 
           {/* Step 2: Copy Secret Key */}
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/10 text-white text-xs font-bold">2</div>
-              <h3 className="text-lg font-bold text-white">Save your Secret Key</h3>
+          <div className="group">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-white shadow-sm border border-stone-100 text-foreground text-sm font-bold neu-flat">2</div>
+              <h3 className="text-xl font-extrabold text-foreground">Save your Secret Key</h3>
             </div>
-            <div className="ml-9">
-              <p className="text-sm text-yellow-500/80 mb-3 bg-yellow-500/10 p-3 rounded-lg border border-yellow-500/20">
-                ⚠️ Store this key securely. You won't be able to see it again after leaving this page!
+            <div className="ml-12">
+              <p className="text-sm text-amber-600 font-semibold mb-4 bg-amber-50 p-4 rounded-xl border border-amber-100 flex items-center gap-3">
+                <span className="text-base">⚠️</span> Store this key securely. You won't be able to see it again!
               </p>
               <div 
-                className="flex items-center justify-between bg-black/40 border border-white/10 rounded-xl p-4 cursor-pointer hover:border-white/30 transition-all group"
+                className="flex items-center justify-between bg-stone-900 border border-stone-800 rounded-2xl p-5 cursor-pointer hover:border-orange-500/30 transition-all neu-pressed"
                 onClick={() => copyRef(apiKey?.secretKey || "", setCopiedKey)}
               >
-                <div className="font-mono text-sm text-green-400 break-all">
+                <div className="font-mono text-sm text-emerald-400 break-all leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
                   {apiKey?.secretKey}
                 </div>
-                <Button size="icon" variant="ghost" className="h-8 w-8 text-gray-500 group-hover:text-white shrink-0">
-                  {copiedKey ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-white hover:bg-white/5 shrink-0">
+                  {copiedKey ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Step 3: Run Test Payment */}
-          <div className="pt-4 border-t border-white/10">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold shadow-[0_0_10px_rgba(124,58,237,0.5)]">3</div>
-              <h3 className="text-lg font-bold text-white">See it in action</h3>
+          <div className="pt-8 border-t border-stone-200/50">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center justify-center w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-600 to-amber-500 text-white text-lg font-bold shadow-lg shadow-orange-200 transition-transform group-hover:scale-110">3</div>
+              <h3 className="text-xl font-extrabold text-foreground">See it in action</h3>
             </div>
-            <div className="ml-9">
-              <p className="text-gray-400 text-sm mb-4">Click below to simulate a backend API call and generate a working hosted checkout URL instantly.</p>
+            <div className="ml-14">
+              <p className="text-stone-500 font-medium text-base mb-6 leading-relaxed">Click below to simulate a backend API call and generate a working hosted checkout URL instantly.</p>
               <Button 
                 onClick={handleTestPayment} 
-                className="w-full h-14 text-base font-bold bg-white text-black hover:bg-gray-200 transition-all rounded-xl hover:scale-[1.02] shadow-xl"
+                className="w-full h-16 text-lg font-extrabold bg-orange-600 text-white hover:bg-orange-500 transition-all rounded-[1.5rem] hover:scale-[1.02] active:scale-95 shadow-xl shadow-orange-500/20"
                 disabled={creatingPayment}
               >
-                {creatingPayment ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : (
-                  <>Create Test Payment <ExternalLink className="w-5 h-5 ml-2" /></>
+                {creatingPayment ? <Loader2 className="w-6 h-6 animate-spin mx-auto" /> : (
+                  <>Create Test Payment <ExternalLink className="w-6 h-6 ml-3" /></>
                 )}
               </Button>
             </div>

@@ -273,7 +273,7 @@ export default function LandingPage() {
         </motion.div>
 
         {/* Hero content - Two Column Layout */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto mt-12 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-30 w-full max-w-7xl mx-auto mt-12 grid lg:grid-cols-2 gap-12 items-center">
           
           {/* Left: Copy & CTAs */}
           <div className="text-left">

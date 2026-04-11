@@ -40,26 +40,30 @@
 
 @layer base {
   :root {
-    --background: oklch(0.78 0.04 65); /* Rich Deep Amber Sand */
-    --foreground: oklch(0.15 0.02 65);  /* Deep earthy charcoal */
+    --background: oklch(0.78 0.04 65);
+    /* Rich Deep Amber Sand */
+    --foreground: oklch(0.15 0.02 65);
+    /* Deep earthy charcoal */
     --card: var(--background);
     --card-foreground: var(--foreground);
     --popover: var(--background);
     --popover-foreground: var(--foreground);
-    --primary: oklch(0.55 0.15 48);     /* Richer Burnt Terracotta */
+    --primary: oklch(0.55 0.15 48);
+    /* Richer Burnt Terracotta */
     --primary-foreground: white;
-    --secondary: oklch(0.72 0.04 65);    /* Deeper warm gold */
-    --secondary-foreground: oklch(0.25 0.03 65); 
+    --secondary: oklch(0.72 0.04 65);
+    /* Deeper warm gold */
+    --secondary-foreground: oklch(0.25 0.03 65);
     --muted: oklch(0.72 0.04 65);
-    --muted-foreground: oklch(0.35 0.04 65); 
-    --accent: oklch(0.55 0.15 48);     
+    --muted-foreground: oklch(0.35 0.04 65);
+    --accent: oklch(0.55 0.15 48);
     --accent-foreground: var(--primary-foreground);
     --destructive: oklch(0.50 0.18 25);
     --destructive-foreground: white;
     --border: oklch(0.65 0.04 65);
     --input: oklch(0.65 0.04 65);
     --ring: oklch(0.55 0.15 48);
-    --radius: 1.5rem; 
+    --radius: 1.5rem;
 
     /* Recalibrated Neumorphic Shadow Tokens for Darker Background */
     --neu-light: -6px -6px 14px oklch(0.86 0.03 65);
@@ -74,22 +78,27 @@
     background: var(--background);
     box-shadow: var(--neu-light), var(--neu-dark);
   }
+
   .neu-convex {
     background: linear-gradient(145deg, oklch(0.82 0.04 65), oklch(0.74 0.04 65));
     box-shadow: var(--neu-light), var(--neu-dark);
   }
+
   .neu-concave {
     background: linear-gradient(145deg, oklch(0.74 0.04 65), oklch(0.82 0.04 65));
     box-shadow: var(--neu-light), var(--neu-dark);
   }
+
   .neu-pressed {
     background: var(--background);
     box-shadow: var(--neu-pressed-light), var(--neu-pressed-dark);
   }
+
   .neu-button {
     @apply transition-all duration-200;
     box-shadow: -4px -4px 12px oklch(0.86 0.03 65), 4px 4px 12px oklch(0.62 0.06 65);
   }
+
   .neu-button:active {
     box-shadow: inset -2px -2px 6px oklch(0.86 0.03 65), inset 2px 2px 6px oklch(0.62 0.06 65);
     transform: translateY(1px);
@@ -100,6 +109,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
   }

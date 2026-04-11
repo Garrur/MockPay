@@ -40,14 +40,14 @@ MockPay offers a fully-typed Node.js SDK for seamless integration. It's designed
 
 ### 1. Install the SDK
 ```bash
-npm install @utkarsh_raj32/mockpay-js
+npm i @utkarsh_raj32/sandboxpay-js
 ```
 
 ### 2. Initialize & Create a Payment
 In your backend application, securely create a payment session:
 
 ```javascript
-import MockPay from '@utkarsh_raj32/mockpay-js';
+import SandboxPay from '@utkarsh_raj32/sandboxpay-js';
 
 // Initialize with your secret key from the MockPay Dashboard
 const client = new MockPay('sk_test_1234567890abcdef');

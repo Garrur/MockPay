@@ -123,11 +123,11 @@ export function OnboardingSetup() {
             </div>
             <div 
               className="flex items-center justify-between bg-stone-900 overflow-hidden border border-stone-800 rounded-2xl p-5 cursor-pointer hover:border-orange-500/30 transition-all ml-12 neu-pressed"
-              onClick={() => copyRef("npm install @utkarsh_raj32/mockpay-js", setCopiedSdk)}
+              onClick={() => copyRef("npm i @utkarsh_raj32/sandboxpay-js", setCopiedSdk)}
             >
               <div className="flex items-center gap-4 font-mono text-sm text-stone-950 font-bold">
                 <Terminal className="w-5 h-5 text-orange-700" />
-                <span style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>npm install @utkarsh_raj32/mockpay-js</span>
+                <span style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>npm i @utkarsh_raj32/sandboxpay-js</span>
               </div>
               <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-stone-950 hover:bg-stone-200/50">
                 {copiedSdk ? <Check className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}

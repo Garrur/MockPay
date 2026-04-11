@@ -126,7 +126,7 @@ function FlowLabel({ label, color, status }: { label: string; color: string; sta
   );
 }
 
-const HERO_CODE = `<span style="color: #c678dd">import</span> MockPay <span style="color: #c678dd">from</span> <span style="color: #98c379">'@utkarsh_raj32/mockpay-js'</span>;
+const HERO_CODE = `<span style="color: #c678dd">import</span> SandboxPay <span style="color: #c678dd">from</span> <span style="color: #98c379">'@utkarsh_raj32/sandboxpay-js'</span>;
 
 <span style="color: #c678dd">const</span> client = <span style="color: #c678dd">new</span> <span style="color: #e5c07b">MockPay</span>(<span style="color: #98c379">'sk_test_...'</span>);
 
@@ -598,7 +598,7 @@ export default function LandingPage() {
 // ── NPM Install Badge ─────────────────────────────────────────
 function NpmInstallBadge() {
   const [copied, setCopied] = useState(false);
-  const cmd = "npm install @utkarsh_raj32/mockpay-js";
+  const cmd = "npm i @utkarsh_raj32/sandboxpay-js";
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(cmd); setCopied(true); setTimeout(() => setCopied(false), 2000); }}

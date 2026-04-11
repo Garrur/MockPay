@@ -339,10 +339,10 @@ export default function LandingPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="mt-6 flex items-center gap-4 text-xs font-black text-stone-950 uppercase tracking-widest opacity-80"
+                className="mt-6 flex flex-wrap items-center gap-8 text-xs font-black text-stone-950 uppercase tracking-widest opacity-80"
              >
-                <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-700" /> No real money processed</span>
-                <span className="flex items-center gap-1"><Check className="w-3 h-3 text-emerald-700" /> Free forever</span>
+                <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-700" /> No real money processed</span>
+                <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-700" /> Free forever</span>
              </motion.div>
           </div>
 

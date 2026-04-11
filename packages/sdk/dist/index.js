@@ -101,6 +101,8 @@ class SandboxPay {
             currency: params.currency,
             order_id: params.orderId,
             description: params.description,
+            success_url: params.success_url,
+            cancel_url: params.cancel_url,
             metadata: params.metadata,
         });
     }

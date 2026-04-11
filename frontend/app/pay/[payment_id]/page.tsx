@@ -552,7 +552,13 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
                       <ArrowLeft className="w-4 h-4" /> Try Again
                     </GlowButton>
                   ) : (
-                    <GlowButton variant={status === "success" ? "green" : "outline"} onClick={() => window.close()}>
+                    <GlowButton variant={status === "success" ? "green" : "outline"} onClick={() => {
+                        if (payment.success_url) {
+                            window.location.href = payment.success_url;
+                        } else {
+                            window.close();
+                        }
+                    }}>
                       {status === "success" && <><Sparkles className="w-4 h-4" /> Finish</>}
                       {status === "pending" && <>Close Window</>}
                     </GlowButton>

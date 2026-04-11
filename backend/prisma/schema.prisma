@@ -74,6 +74,8 @@ model Payment {
   description   String?
   status        PaymentStatus @default(created)
   paymentUrl    String        @unique
+  successUrl    String?
+  cancelUrl     String?
   cardLast4     String?
   upiId         String?
   metadata      Json?

@@ -21,12 +21,14 @@ const UPI_RULES: Record<string, 'success' | 'pending' | 'failed'> = {
 export async function paymentsRoutes(fastify: FastifyInstance) {
   // POST /api/payments — Create payment intent
   fastify.post('/payments', { preHandler: apiKeyAuth }, async (req: any, reply) => {
-    const { amount, currency = 'INR', order_id, description, metadata } = req.body as {
+    const { amount, currency = 'INR', order_id, description, metadata, success_url, cancel_url } = req.body as {
       amount: number;
       currency?: string;
       order_id: string;
       description?: string;
       metadata?: Record<string, unknown>;
+      success_url?: string;
+      cancel_url?: string;
     };
 
     if (!amount || !order_id) {
@@ -44,6 +46,8 @@ export async function paymentsRoutes(fastify: FastifyInstance) {
         currency,
         orderId: order_id,
         description,
+        successUrl: success_url,
+        cancelUrl: cancel_url,
         paymentUrl,
         status: 'created',
         metadata: (metadata || {}) as any,
@@ -121,6 +125,8 @@ export async function paymentsRoutes(fastify: FastifyInstance) {
       description: payment.description,
       status: payment.status,
       project_name: (payment as any).project?.name,
+      success_url: payment.successUrl,
+      cancel_url: payment.cancelUrl,
     };
   });
 

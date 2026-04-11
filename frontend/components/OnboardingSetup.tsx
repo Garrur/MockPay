@@ -125,12 +125,12 @@ export function OnboardingSetup() {
               className="flex items-center justify-between bg-stone-900 overflow-hidden border border-stone-800 rounded-2xl p-5 cursor-pointer hover:border-orange-500/30 transition-all ml-12 neu-pressed"
               onClick={() => copyRef("npm install @utkarsh_raj32/mockpay-js", setCopiedSdk)}
             >
-              <div className="flex items-center gap-4 font-mono text-sm text-stone-300">
-                <Terminal className="w-5 h-5 text-orange-500" />
+              <div className="flex items-center gap-4 font-mono text-sm text-stone-950 font-bold">
+                <Terminal className="w-5 h-5 text-orange-700" />
                 <span style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>npm install @utkarsh_raj32/mockpay-js</span>
               </div>
-              <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-white hover:bg-white/5">
-                {copiedSdk ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+              <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-stone-950 hover:bg-stone-200/50">
+                {copiedSdk ? <Check className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}
               </Button>
             </div>
           </div>
@@ -149,11 +149,11 @@ export function OnboardingSetup() {
                 className="flex items-center justify-between bg-stone-900 border border-stone-800 rounded-2xl p-5 cursor-pointer hover:border-orange-500/30 transition-all neu-pressed"
                 onClick={() => copyRef(apiKey?.secretKey || "", setCopiedKey)}
               >
-                <div className="font-mono text-sm text-emerald-400 break-all leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+                <div className="font-mono text-sm text-emerald-700 font-bold break-all leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
                   {apiKey?.secretKey}
                 </div>
-                <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-white hover:bg-white/5 shrink-0">
-                  {copiedKey ? <Check className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                <Button size="icon" variant="ghost" className="h-10 w-10 text-stone-500 hover:text-stone-950 hover:bg-stone-200/50 shrink-0">
+                  {copiedKey ? <Check className="w-5 h-5 text-emerald-600" /> : <Copy className="w-5 h-5" />}
                 </Button>
               </div>
             </div>

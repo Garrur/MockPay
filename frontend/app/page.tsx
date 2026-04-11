@@ -252,7 +252,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Content */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 py-32 overflow-hidden">
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 py-16 overflow-hidden">
         
         {/* 3D Canvas — fills the background BEHIND text */}
         <div className="absolute inset-0 z-0">

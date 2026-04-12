@@ -546,11 +546,12 @@ export default function LandingPage() {
                       Get started (and never finish) 🚀
                     </Link>
                   ) : (
-                    <div
-                      className={`mt-auto w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm cursor-default select-none gap-2 ${plan.popular ? "bg-orange-600 text-white shadow-lg" : "bg-white/20 border border-gray-100 text-foreground"}`}
+                    <Link
+                      href="/sign-up"
+                      className={`mt-auto w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm cursor-pointer transition-all gap-2 ${plan.popular ? "bg-orange-600 text-white shadow-lg hover:bg-orange-700 hover:scale-[1.02]" : "bg-white/20 border border-gray-100 text-foreground hover:bg-white/30"}`}
                     >
                       {plan.popular ? "Swipe your fake credit card 💳" : "Schedule a call we'll cancel 📅"}
-                    </div>
+                    </Link>
                   )}
                 </TiltCard>
               </motion.div>

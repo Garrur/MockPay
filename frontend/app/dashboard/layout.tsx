@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { CreditCard, Activity, Key, Settings, Webhook, BookOpen, Zap, Link2, Bug } from "lucide-react";
@@ -9,6 +12,11 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   return (
     <div className="flex min-h-screen flex-col md:flex-row bg-background text-foreground selection:bg-orange-200/30">
       {/* Sidebar */}
@@ -66,7 +74,11 @@ export default function DashboardLayout({
 
         <div className="mt-auto pt-6 border-t border-stone-200/50 flex items-center gap-3 px-2">
           <div className="p-1 rounded-xl bg-white/40 neu-flat">
-            <UserButton appearance={{ elements: { userButtonAvatarBox: "h-8 w-8" } }} />
+            {mounted ? (
+              <UserButton appearance={{ elements: { userButtonAvatarBox: "h-8 w-8" } }} />
+            ) : (
+              <div className="h-8 w-8 rounded-full bg-stone-200 animate-pulse" />
+            )}
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-bold text-foreground">Developer</span>
@@ -87,7 +99,11 @@ export default function DashboardLayout({
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-600 to-amber-500 font-bold text-white shadow-lg">M</div>
             <span className="text-xl font-bold tracking-tight">MockPay</span>
           </div>
-          <UserButton />
+          {mounted ? (
+            <UserButton />
+          ) : (
+            <div className="h-8 w-8 rounded-full bg-stone-200 animate-pulse" />
+          )}
         </header>
 
         <div className="flex-1 p-4 md:p-12 max-w-6xl w-full mx-auto relative z-10 overflow-y-auto">

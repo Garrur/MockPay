@@ -4,6 +4,19 @@
 
 MockPay is a highly realistic, developer-first payment gateway simulator that allows you to integrate Stripe-like payment flows into your applications instantly. Build, debug, and test complex checkout flows without KYC blocks, real bank integrations, or risking real money. Perfect for hackathons, SaaS MVP validation, and testing edge cases.
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Stable-22c55e?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Status: Stable" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-f97316?style=for-the-badge&logo=semanticversioning&logoColor=white" alt="Version 1.0.0" />
+  <img src="https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js 16" />
+  <img src="https://img.shields.io/badge/Node.js-TypeScript-3178c6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Queue-BullMQ%20%2B%20Redis-dc382d?style=for-the-badge&logo=redis&logoColor=white" alt="BullMQ + Redis" />
+  <img src="https://img.shields.io/badge/Auth-Clerk-6c47ff?style=for-the-badge&logo=clerk&logoColor=white" alt="Clerk Auth" />
+  <img src="https://img.shields.io/badge/ORM-Prisma-2d3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma ORM" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="MIT License" />
+  <img src="https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge&logo=github&logoColor=white" alt="PRs Welcome" />
+</p>
+
 ---
 
 ## 🛠️ Technology Stack

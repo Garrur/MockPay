@@ -2,7 +2,6 @@
 
 import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
 import * as THREE from "three";
 
 // Floating crystal shard
@@ -38,10 +37,10 @@ function Shard({
       <meshStandardMaterial
         color={color}
         transparent
-        opacity={0.12}
+        opacity={0.18}
         wireframe
-        roughness={0.3}
-        metalness={0.8}
+        roughness={0.4}
+        metalness={0.2}
       />
     </mesh>
   );
@@ -50,7 +49,7 @@ function Shard({
 // Glowing sphere at center
 function CoreSphere({ status }: { status: string }) {
   const ref = useRef<THREE.Mesh>(null);
-  const color = status === "success" ? "#34d399" : status === "failed" ? "#ef4444" : status === "pending" ? "#fbbf24" : "#7c3aed";
+  const color = status === "success" ? "#10b981" : status === "failed" ? "#f43f5e" : status === "pending" ? "#f59e0b" : "#d97706";
 
   useFrame(({ clock }) => {
     if (!ref.current) return;
@@ -88,7 +87,7 @@ function CoreSphere({ status }: { status: string }) {
 function GridFloor() {
   return (
     <gridHelper
-      args={[30, 30, "#1a1030", "#0d0820"]}
+      args={[30, 30, "#d2b48c", "#e8d5b7"]}
       position={[0, -3.5, 0]}
     />
   );
@@ -134,29 +133,29 @@ function Scene({ status }: { status: string }) {
           Math.random() * Math.PI,
           Math.random() * Math.PI,
         ] as [number, number, number],
-        color: ["#7c3aed", "#4f46e5", "#3b82f6", "#8b5cf6"][Math.floor(Math.random() * 4)],
+        color: ["#d97706", "#b45309", "#f59e0b", "#92400e"][Math.floor(Math.random() * 4)],
         scale: 0.4 + Math.random() * 1.2,
         speed: 0.2 + Math.random() * 0.4,
       })),
     []
   );
 
-  const ringColor = status === "success" ? "#34d399" : status === "failed" ? "#ef4444" : status === "pending" ? "#fbbf24" : "#7c3aed";
+  const ringColor = status === "success" ? "#10b981" : status === "failed" ? "#f43f5e" : status === "pending" ? "#f59e0b" : "#d97706";
 
   return (
     <>
-      <Stars radius={60} depth={40} count={800} factor={3} saturation={0} fade speed={0.5} />
       <GridFloor />
       <CoreSphere status={status} />
       <OrbitRing radius={3.5} speed={0.15} color={ringColor} />
-      <OrbitRing radius={5} speed={-0.08} color="#4f46e5" />
+      <OrbitRing radius={5} speed={-0.08} color="#b45309" />
 
       {shards.map((s) => <Shard key={s.id} {...s} />)}
 
-      <ambientLight intensity={0.2} />
-      <pointLight position={[0, 0, 2]} intensity={6} color={ringColor} distance={12} decay={2} />
-      <pointLight position={[-6, 4, -2]} intensity={4} color="#4f46e5" distance={15} decay={2} />
-      <pointLight position={[6, -4, 2]} intensity={3} color="#3b82f6" distance={12} decay={2} />
+      <ambientLight intensity={0.8} color="#fdf4e3" />
+      <pointLight position={[0, 0, 2]} intensity={4} color={ringColor} distance={12} decay={2} />
+      <pointLight position={[-6, 4, -2]} intensity={2} color="#f59e0b" distance={15} decay={2} />
+      <pointLight position={[6, -4, 2]} intensity={2} color="#d97706" distance={12} decay={2} />
+      <pointLight position={[0, 8, 0]} intensity={3} color="#ffffff" distance={20} decay={2} />
     </>
   );
 }

@@ -401,6 +401,17 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
                       Pay {amount} <ChevronRight className="w-5 h-5" />
                     </GlowButton>
 
+                    {payment?.cancel_url && (
+                        <button onClick={() => {
+                            const redirectUrl = payment.cancel_url.includes("?") 
+                              ? `${payment.cancel_url}&payment_id=${payment_id}` 
+                              : `${payment.cancel_url}?payment_id=${payment_id}`;
+                            window.location.href = redirectUrl;
+                        }} className="w-full text-center text-[11px] text-stone-500 hover:text-stone-300 transition-colors pt-2 font-bold uppercase tracking-wider">
+                            Cancel & Return to Merchant
+                        </button>
+                    )}
+
                     {/* Payment marks */}
                     <div className="flex items-center justify-center gap-4">
                       {["VISA", "MC", "UPI", "PCI"].map((m) => (
@@ -554,7 +565,10 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
                   ) : (
                     <GlowButton variant={status === "success" ? "green" : "outline"} onClick={() => {
                         if (payment.success_url) {
-                            window.location.href = payment.success_url;
+                            const redirectUrl = payment.success_url.includes("?") 
+                              ? `${payment.success_url}&payment_id=${payment_id}` 
+                              : `${payment.success_url}?payment_id=${payment_id}`;
+                            window.location.href = redirectUrl;
                         } else {
                             window.close();
                         }

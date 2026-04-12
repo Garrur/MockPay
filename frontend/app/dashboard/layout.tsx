@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs";
 import { CreditCard, Activity, Key, Settings, Webhook, BookOpen, Zap, Link2, Bug } from "lucide-react";
+import { MobileNav } from "@/components/MobileNav";
 
 
 export default function DashboardLayout({
@@ -82,13 +83,14 @@ export default function DashboardLayout({
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between p-4 border-b border-stone-200/50 bg-background/80 backdrop-blur-md sticky top-0 z-50">
           <div className="flex items-center gap-2">
+            <MobileNav />
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-600 to-amber-500 font-bold text-white shadow-lg">M</div>
             <span className="text-xl font-bold tracking-tight">MockPay</span>
           </div>
           <UserButton />
         </header>
 
-        <div className="flex-1 p-6 md:p-12 max-w-6xl w-full mx-auto relative z-10 overflow-y-auto">
+        <div className="flex-1 p-4 md:p-12 max-w-6xl w-full mx-auto relative z-10 overflow-y-auto">
           {children}
         </div>
       </main>

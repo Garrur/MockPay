@@ -93,14 +93,14 @@ export default function ApiKeysPage() {
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex justify-between items-end">
-        <div className="flex flex-col gap-1">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 w-full">
+        <div className="flex flex-col gap-1 w-full">
           <h1 className="text-4xl font-extrabold tracking-tight text-foreground">API Keys</h1>
-          <p className="text-stone-900 font-bold text-lg">Manage your project's public and secret keys to authenticate API requests.</p>
+          <p className="text-stone-900 font-bold text-lg break-words">Manage your project's public and secret keys to authenticate API requests.</p>
         </div>
         <Button 
           onClick={openCreateDialog} 
-          className="h-12 px-6 bg-gradient-to-br from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/10 active:scale-95 transition-all"
+          className="h-12 w-full sm:w-auto px-6 bg-gradient-to-br from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/10 active:scale-95 transition-all"
         >
           <Plus className="w-5 h-5 mr-2" /> Generate Key
         </Button>

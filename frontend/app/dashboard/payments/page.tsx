@@ -57,9 +57,9 @@ export default function PaymentsPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Payments</h1>
-        <p className="text-stone-900 font-bold">View and track all simulated payments for your project.</p>
+      <div className="flex flex-col gap-1 w-full">
+        <h1 className="text-4xl font-extrabold tracking-tight text-foreground break-words">Payments</h1>
+        <p className="text-stone-900 font-bold break-words">View and track all simulated payments for your project.</p>
       </div>
 
       <div className="rounded-[2rem] border-none bg-white/40 neu-flat overflow-hidden p-1 backdrop-blur-sm">

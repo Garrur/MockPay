@@ -484,8 +484,9 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
+                className="h-full"
               >
-                <TiltCard className="p-6 hover:border-white/20 transition-all group">
+                <TiltCard className="p-6 hover:border-white/20 transition-all group h-full flex flex-col">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-all group-hover:scale-110 shadow-sm"
                     style={{ background: `${f.color}20`, border: `1px solid ${f.color}40` }}
@@ -511,24 +512,26 @@ export default function LandingPage() {
       <section id="pricing" className="relative z-10 py-24 px-6">
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 text-foreground">Simple pricing.</h2>
-            <p className="text-stone-700 text-lg">No surprises. No KYC. Cancel anytime.</p>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 text-foreground">Pricing. Fake money, fake plans.</h2>
+            <p className="text-stone-700 text-lg">Don't take your wallet out. We're broke too.</p>
           </motion.div>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: "Hobby", price: "Free", desc: "Perfect for side projects and learning.", features: ["1,000 simulated payments/mo", "Hosted checkout", "3 demo links", "Community support"] },
-              { name: "Pro", price: "₹999/mo", desc: "For serious developers and startups.", features: ["Unlimited payments", "Webhook Debugger + Replayer", "Flow Testing Studio", "Priority support"], popular: true },
-              { name: "Team", price: "₹2,499/mo", desc: "For engineering teams and agencies.", features: ["Everything in Pro", "5 team members", "Custom branding", "Dedicated Slack channel"] },
+              { name: "Hobby", price: "Free", desc: "Perfect for your 14th unfinished side project you will abandon next week.", features: ["1,000 fake payments/mo", "A checkout you can show your mom", "3 demo links you'll forget", "Emotional support only"] },
+              { name: "Pro", price: "₹999/mo", desc: "For developers who actually shipped a project for once.", features: ["Infinite fake money glitch", "Webhook debugger for your 500 errors", "Flow Testing Studio", "Fast-ish support"], popular: true },
+              { name: "Team", price: "₹2,499/mo", desc: "For agencies wasting VC money on 'team collaboration'.", features: ["Everything in Pro, but Enterprise ✨", "5 team members to argue with", "Custom branding for your ego", "A Slack channel we will mute"] },
             ].map((plan, i) => (
-              <motion.div key={plan.name} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                <TiltCard className={`p-6 ${plan.popular ? "bg-orange-100/40 shadow-[0_20px_50px_rgba(194,65,12,0.1)]" : "bg-white/10"}`}>
-                  {plan.popular && (
-                    <div className="text-xs font-bold text-orange-700 bg-orange-100 border border-orange-200 rounded-full px-3 py-1 inline-block mb-4 shadow-sm">Most Popular</div>
-                  )}
+              <motion.div key={plan.name} initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }} className="h-full">
+                <TiltCard className={`p-6 h-full flex flex-col ${plan.popular ? "bg-orange-100/40 shadow-[0_20px_50px_rgba(194,65,12,0.1)]" : "bg-white/10"}`}>
+                  <div className="h-8 mb-2">
+                    {plan.popular && (
+                      <div className="text-[10px] sm:text-xs font-bold text-orange-700 bg-orange-100 border border-orange-200 rounded-full px-3 py-1 inline-block shadow-sm">Most Popular</div>
+                    )}
+                  </div>
                   <h3 className="text-xl font-black text-foreground mb-1 uppercase tracking-tight">{plan.name}</h3>
                   <div className="text-3xl font-black text-foreground mb-1">{plan.price}</div>
-                  <p className="text-stone-900 text-sm mb-6 font-bold opacity-80">{plan.desc}</p>
-                  <ul className="space-y-3 mb-8">
+                  <p className="text-stone-900 text-sm mb-6 font-bold opacity-80 min-h-[40px]">{plan.desc}</p>
+                  <ul className="space-y-3 mb-8 flex-1">
                     {plan.features.map((ft) => (
                       <li key={ft} className="flex items-center gap-2 text-sm text-stone-950 font-bold">
                         <Check className="w-4 h-4 text-orange-700 shrink-0" /> {ft}
@@ -538,15 +541,15 @@ export default function LandingPage() {
                   {plan.name === "Hobby" ? (
                     <Link
                       href="/sign-up"
-                      className="w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm transition-all border border-gray-200 text-foreground hover:bg-white/50 shadow-sm"
+                      className="mt-auto w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm transition-all border border-gray-200 text-foreground hover:bg-white/50 shadow-sm"
                     >
-                      Get started
+                      Get started (and never finish) 🚀
                     </Link>
                   ) : (
                     <div
-                      className={`w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm cursor-default select-none gap-2 ${plan.popular ? "bg-orange-600 text-white shadow-lg" : "bg-white/20 border border-gray-100 text-foreground"}`}
+                      className={`mt-auto w-full flex justify-center items-center py-2.5 rounded-xl font-bold text-sm cursor-default select-none gap-2 ${plan.popular ? "bg-orange-600 text-white shadow-lg" : "bg-white/20 border border-gray-100 text-foreground"}`}
                     >
-                      It's a demo — don't pay us 😅
+                      {plan.popular ? "Swipe your fake credit card 💳" : "Schedule a call we'll cancel 📅"}
                     </div>
                   )}
                 </TiltCard>
@@ -602,11 +605,11 @@ function NpmInstallBadge() {
   return (
     <button
       onClick={() => { navigator.clipboard.writeText(cmd); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-      className="flex items-center gap-3 bg-stone-900 border border-white/10 rounded-xl px-5 py-2.5 text-sm font-mono text-stone-200 hover:border-orange-500/40 hover:text-white transition-all group backdrop-blur-sm shadow-xl"
+      className="flex items-center justify-between gap-3 bg-stone-900 border border-white/10 rounded-xl px-4 sm:px-5 py-2.5 text-sm font-mono text-stone-200 hover:border-orange-500/40 hover:text-white transition-all group backdrop-blur-sm shadow-xl max-w-full"
     >
-      <Terminal className="w-4 h-4 text-orange-500" />
-      <span className="opacity-90">{cmd}</span>
-      <span className="text-stone-400 group-hover:text-orange-500 transition-colors">
+      <Terminal className="w-4 h-4 text-orange-500 shrink-0" />
+      <span className="opacity-90 truncate">{cmd}</span>
+      <span className="text-stone-400 group-hover:text-orange-500 transition-colors shrink-0">
         {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
       </span>
     </button>

@@ -48,7 +48,7 @@ function JsonViewer({ data, label }: { data: any; label: string }) {
         <div className="absolute top-0 right-0 p-2 opacity-0 group-hover:opacity-100 transition-opacity">
            <code className="text-[9px] text-stone-700 font-mono">JSON</code>
         </div>
-        <pre className="text-xs text-emerald-400 font-mono overflow-x-auto max-h-48 scrollbar-thin leading-relaxed" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
+        <pre className="text-xs text-emerald-400 font-mono overflow-x-auto max-h-48 scrollbar-thin leading-relaxed max-w-[85vw] md:max-w-full" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>
           {JSON.stringify(data, null, 2)}
         </pre>
       </div>
@@ -81,14 +81,16 @@ function EventRow({ event, onReplay, token }: { event: WhEvent; onReplay: (id: s
   return (
     <div className="border-b border-stone-100/50 last:border-0">
       <div
-        className={`flex items-center gap-4 px-8 py-5 hover:bg-white/50 cursor-pointer transition-all ${expanded ? "bg-stone-50/50" : ""}`}
+        className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 px-4 sm:px-8 py-5 hover:bg-white/50 cursor-pointer transition-all ${expanded ? "bg-stone-50/50" : ""}`}
         onClick={() => setExpanded((v: boolean) => !v)}
       >
-        <span className="text-stone-700">{expanded ? <ChevronDown className="w-5 h-5 text-orange-700" /> : <ChevronRight className="w-5 h-5" />}</span>
-        <code className="text-[11px] text-orange-700 font-bold font-mono bg-orange-100/50 px-3 py-1.5 rounded-xl border border-orange-100 min-w-[200px]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{event.eventType}</code>
-        <StatusBadge status={event.status} httpStatus={event.httpStatus} />
+        <div className="flex items-center gap-4 w-full sm:w-auto">
+          <span className="text-stone-700">{expanded ? <ChevronDown className="w-5 h-5 text-orange-700" /> : <ChevronRight className="w-5 h-5" />}</span>
+          <code className="text-[11px] text-orange-700 font-bold font-mono bg-orange-100/50 px-3 py-1.5 rounded-xl border border-orange-100 min-w-[150px] overflow-hidden text-ellipsis whitespace-nowrap" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{event.eventType}</code>
+          <StatusBadge status={event.status} httpStatus={event.httpStatus} />
+        </div>
         
-        <div className="ml-auto flex items-center gap-6">
+        <div className="mt-4 sm:mt-0 sm:ml-auto flex items-center justify-between w-full sm:w-auto sm:justify-end gap-4 sm:gap-6">
            <span className="text-stone-900 font-extrabold text-[10px] uppercase tracking-tighter bg-stone-100 px-2.5 py-1 rounded-md">{event.attempts} attempt{event.attempts !== 1 ? "s" : ""}</span>
            <span className="text-stone-900 font-mono text-[10px] hidden lg:block truncate max-w-[200px] opacity-80" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>{event.webhook?.url}</span>
            <span className="text-stone-950 font-black text-xs whitespace-nowrap">{new Date(event.createdAt).toLocaleTimeString()}</span>
@@ -113,7 +115,7 @@ function EventRow({ event, onReplay, token }: { event: WhEvent; onReplay: (id: s
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden bg-white/20"
           >
-            <div className="px-16 pb-10 pt-4 grid xl:grid-cols-2 gap-10">
+            <div className="px-4 sm:px-16 pb-10 pt-4 grid xl:grid-cols-2 gap-10">
               <div className="space-y-8">
                  <JsonViewer data={event.payload} label="Simulation Payload" />
                  {event.requestHeaders && <JsonViewer data={event.requestHeaders} label="Outgoing Headers" />}
@@ -204,12 +206,12 @@ export default function WebhookLogsPage() {
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex items-end justify-between">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Webhook Debugger</h1>
-          <p className="text-stone-700 font-medium text-lg">Inspect every delivery attempt, payload, and response in real-time.</p>
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 w-full">
+        <div className="flex flex-col gap-1 w-full shrink">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground break-words">Webhook Debugger</h1>
+          <p className="text-stone-700 font-medium text-lg break-words">Inspect every delivery attempt, payload, and response in real-time.</p>
         </div>
-        <div className="flex items-center gap-3 px-5 py-2.5 bg-emerald-100 text-emerald-700 rounded-full font-extrabold text-sm shadow-sm">
+        <div className="flex items-center gap-3 px-5 py-2.5 bg-emerald-100 text-emerald-700 rounded-full font-extrabold text-sm shadow-sm shrink-0 w-fit">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" /> Live Stream
         </div>
       </div>
@@ -239,7 +241,7 @@ export default function WebhookLogsPage() {
 
         <Button 
           variant="ghost" 
-          className="h-12 px-6 bg-white border border-stone-200 text-foreground font-bold rounded-2xl hover:bg-stone-50 transition-all active:scale-95 shadow-sm" 
+          className="h-12 px-6 w-full sm:w-auto bg-white border border-stone-200 text-foreground font-bold rounded-2xl hover:bg-stone-50 transition-all active:scale-95 shadow-sm" 
           onClick={async () => {
             const token = await getToken();
             if (projectId && token) fetchEvents(projectId, token);
@@ -248,7 +250,7 @@ export default function WebhookLogsPage() {
           <RefreshCw className="w-4 h-4 mr-2" /> Refresh
         </Button>
         
-        <span className="ml-auto text-sm font-black text-stone-950 uppercase tracking-widest opacity-80">{total} deliveries captured</span>
+        <span className="w-full sm:w-auto sm:ml-auto text-sm font-black text-stone-950 uppercase tracking-widest opacity-80 mt-2 sm:mt-0">{total} deliveries captured</span>
       </div>
 
       {/* Timeline */}

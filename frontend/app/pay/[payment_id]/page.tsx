@@ -271,6 +271,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
   const [payment, setPayment] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"idle" | "processing" | "success" | "failed" | "pending">("idle");
+  const isProcessing = status === "processing";
   const [simParams, setSimParams] = useState<any>(null);
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState<"card" | "upi">("card");
@@ -495,7 +496,7 @@ export default function CheckoutPage({ params }: { params: Promise<{ payment_id:
                     </div>
 
                     {/* Dev panel */}
-                    <DevPanel onSimulate={handleSimulate} isProcessing={status === "processing"} />
+                    <DevPanel onSimulate={handleSimulate} isProcessing={isProcessing} />
                   </div>
                 </div>
 

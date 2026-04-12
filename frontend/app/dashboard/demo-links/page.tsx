@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Copy, Check, Trash2, Link2, ExternalLink, Calendar, Hash } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { playTactileClick } from "@/lib/sound";
 
 type DemoLink = {
   id: string;
@@ -26,6 +27,7 @@ type DemoLink = {
 function CopyUrl({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);
   const copy = () => {
+    playTactileClick();
     navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -37,7 +39,7 @@ function CopyUrl({ url }: { url: string }) {
         <button onClick={copy} className="p-2 transition-all hover:bg-white rounded-xl text-stone-600 hover:text-orange-700 active:scale-90 shadow-sm border border-transparent hover:border-stone-100" aria-label="Copy demo checkout URL">
           {copied ? <Check className="w-4.5 h-4.5 text-emerald-500" aria-hidden="true" /> : <Copy className="w-4.5 h-4.5" aria-hidden="true" />}
         </button>
-        <a href={url} target="_blank" rel="noopener noreferrer" className="p-2 transition-all hover:bg-white rounded-xl text-stone-600 hover:text-amber-600 active:scale-90 shadow-sm border border-transparent hover:border-stone-100" aria-label="Open demo checkout in new tab">
+        <a href={url} target="_blank" rel="noopener noreferrer" className="p-2 transition-all hover:bg-white rounded-xl text-stone-600 hover:text-amber-600 active:scale-90 shadow-sm border border-transparent hover:border-stone-100" aria-label="Open demo checkout in new tab" onClick={() => playTactileClick()}>
           <ExternalLink className="w-4.5 h-4.5" aria-hidden="true" />
         </a>
       </div>
@@ -116,12 +118,12 @@ export default function DemoLinksPage() {
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="flex items-end justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-4xl font-extrabold tracking-tight text-foreground">Demo Links</h1>
-          <p className="text-stone-700 font-medium text-lg">Create shareable public checkout pages — no login required for viewers.</p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-stone-900">Demo Links</h1>
+          <p className="text-stone-600 font-medium">Create shareable public checkout pages — no login required for viewers.</p>
         </div>
         <Button 
           className="h-12 px-6 bg-gradient-to-br from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/10 active:scale-95 transition-all" 
-          onClick={() => setCreateOpen(true)}
+          onClick={() => { playTactileClick(); setCreateOpen(true); }}
         >
           <Plus className="w-5 h-5 mr-2" /> Create Link
         </Button>
@@ -134,10 +136,10 @@ export default function DemoLinksPage() {
           { icon: "💼", title: "Client Demos", text: "Share a live checkout experience without real money.", color: "bg-emerald-50" },
           { icon: "🚀", title: "Portfolio Projects", text: "Impress interviewers with a demo anyone can try.", color: "bg-orange-50" },
         ].map(item => (
-          <div key={item.title} className="rounded-[2rem] border-none bg-white p-8 neu-flat transition-all hover:-translate-y-1">
-            <div className={`w-14 h-14 ${item.color} rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm`}>{item.icon}</div>
-            <p className="font-extrabold text-xl text-foreground mb-2">{item.title}</p>
-            <p className="text-sm text-stone-700 font-medium leading-relaxed">{item.text}</p>
+          <div key={item.title} className="rounded-[2rem] border-none bg-white p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all hover:-translate-y-1">
+            <div className={`w-14 h-14 ${item.color} rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-inner`}>{item.icon}</div>
+            <p className="font-extrabold text-xl text-stone-900 mb-2">{item.title}</p>
+            <p className="text-sm text-stone-600 font-medium leading-relaxed">{item.text}</p>
           </div>
         ))}
       </div>
@@ -145,8 +147,8 @@ export default function DemoLinksPage() {
       {/* Links list */}
       <div className="space-y-6">
         <div className="flex items-center gap-3">
-           <Link2 className="w-5 h-5 text-stone-600" />
-           <h2 className="font-extrabold text-lg text-stone-700 uppercase tracking-widest">Active Demo Interfaces</h2>
+           <Link2 className="w-5 h-5 text-stone-500" />
+           <h2 className="font-extrabold text-lg text-stone-800 uppercase tracking-widest">Active Demo Interfaces</h2>
         </div>
         
         {loading ? (

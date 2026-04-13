@@ -23,7 +23,7 @@ export default function RootLayout({
     <ClerkProvider>
       <CSPostHogProvider>
         <html lang="en" suppressHydrationWarning>
-          <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
+          <body suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased min-h-screen bg-background text-foreground`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
